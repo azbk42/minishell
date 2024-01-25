@@ -22,9 +22,11 @@ RM = rm -f
 
 .c.o:
 	@${CC} -c ${CFLAGS} -MMD -MP $< -o ${<:.c=.o}
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)$(END)"
 
 ${NAME}: ${OBJS} ${BONUSOBJS} ${SRC2OBJS}
 	@ar rc ${NAME} ${OBJS} ${BONUSOBJS} ${SRC2OBJS}
+	@echo "$(GREEN)libft compiled!$(DEF_COLOR)$(END)"
 
 all: ${NAME}
 

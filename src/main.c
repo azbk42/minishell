@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/01/22 19:34:40 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:16:26 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ char *find_command_in_path(char *cmd)
     char *found;
 
     path = getenv("PATH");
-    path_copy = strdup(path);
+    ft_printf("%s\n", path);
+    path_copy = ft_strdup(path);
     if (!path_copy)
         return (NULL);
     dir = strtok(path_copy, ":");
@@ -80,11 +81,11 @@ void split_command(char *cmd, char *argv[], int max_args)
     char *token;
 
     i = 0;
-    token = cmd;
+    token = cmd; // ls -a
     while (token != NULL && i < max_args - 1)
     {
         argv[i++] = token;
-        token = strchr(token, ' ');
+        token = ft_strchr(token, ' ');
         if (token != NULL)
         {
             *token = '\0';
@@ -141,19 +142,23 @@ void execute_command(char *cmd, char **env)
     free(full_path);
 }
 
-
 int main() 
-{
+{    
     char *line;
     char **env;
 
     env = NULL;
     while (true) 
     {
-        line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");
+        line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   
         if (line == NULL) 
         {
             printf("\nCtrl+D détecté. Au revoir !\n");
+            break;
+        }
+        if (ft_strncmp(line, "exit", 5) == 0) 
+		{
+            free(line);
             break;
         }
         if (line != NULL && strlen(line) > 0) 
@@ -164,5 +169,5 @@ int main()
         }
         free(line);
     }
-    return 0;
+    return (0);
 }
