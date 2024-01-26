@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/01/26 16:30:32 by azbk             ###   ########.fr       */
+/*   Created: 2024/01/26 15:25:07 by azbk              #+#    #+#             */
+/*   Updated: 2024/01/26 15:25:35 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 
-# ifndef STRUCT_H
-#  define STRUCT_H
-
-struct s_token
+int     ft_pwd(void)
 {
-    char            *word;
-    //enum            type;
-    struct t_token    *next;
-};
+    char    *pwd;
 
-struct s_cmd_line
-{
-    char                *cmd;
-    struct  t_token       *word;
-    char                **args;
-    struct  t_cmd_line    *next;
-};
-
-#endif
+    pwd = getcwd(NULL, 0);
+    ft_printf("%s\n", pwd);
+    free(pwd);
+    return (0);
+}

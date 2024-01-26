@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/01/25 16:16:26 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/01/26 16:30:54 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/struct.h"
+#include "../includes/builtin.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,7 +58,7 @@ char *find_command_in_path(char *cmd)
     char *found;
 
     path = getenv("PATH");
-    ft_printf("%s\n", path);
+    // ft_printf("%s\n", path);
     path_copy = ft_strdup(path);
     if (!path_copy)
         return (NULL);
@@ -171,3 +173,17 @@ int main()
     }
     return (0);
 }
+
+
+// int main(int ac, char **av)
+// {
+    
+//     if (ac > 1)
+//     {
+//         if (ft_strncmp(av[1] , "pwd", 4) == 0)
+//         {
+//         ft_pwd();
+//         }   
+//     }
+    
+// }

@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/01/26 16:30:32 by azbk             ###   ########.fr       */
+/*   Created: 2024/01/26 15:25:59 by azbk              #+#    #+#             */
+/*   Updated: 2024/01/26 15:27:58 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BUILTIN_H  
+# define BUILTIN_H
 
-# ifndef STRUCT_H
-#  define STRUCT_H
 
-struct s_token
-{
-    char            *word;
-    //enum            type;
-    struct t_token    *next;
-};
+/* -------------------------------------------------------------------------- */
+/*                                    PWD                                     */
+/* -------------------------------------------------------------------------- */
 
-struct s_cmd_line
-{
-    char                *cmd;
-    struct  t_token       *word;
-    char                **args;
-    struct  t_cmd_line    *next;
-};
+int     ft_pwd(void);
 
 #endif

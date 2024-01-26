@@ -1,110 +1,130 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
+#    Updated: 2024/01/26 17:02:06 by azbk             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 ################################################################################
-#                                  COMPILATION                                 #
+#                                COMPILATION                                   #
 ################################################################################
 
 NAME = minishell
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra
-MAKEFLAGS += --no-print-directory
+CC		= @cc
+CFLAGS	= -g3 -Wall -Wextra -Werror
+CIFLAGS	= -Iincludes -I$(LIB_DIR)/includes
+CCLIED	= -L$(LIB_DIR) -lft -lreadline
+DEPFLAGS = -MMD -MP
+MAKE	= @make --no-print-directory
 
 ################################################################################
-#                                  DIRECTORY                                   #
+#                                  ASCII ART                                   #
 ################################################################################
 
-LIBFT = ./Libft/libft.a
-SRC_DIR = ./src
-OBJ_DIR = obj
-DEPS_DIR = deps
-BUILTIN = builtin
+RED	= \033[1;36m
+RED		= \033[1;31m
+WHITE	= \033[1;37m
+END		= \033[0m
 
 ################################################################################
 #                                  SOURCES                                     #
 ################################################################################
 
-SRC := $(addprefix $(BUILTIN)/, \
-			cd.c) \
-		\
-		main.c
-SRC := $(addprefix $(SRC_DIR)/, $(SRC))
+PARSE_DIR	= parse
+EXEC_DIR	= exec
+BUILT_DIR	= builtins
+UTILS_DIR	= utils
+SIGNAL_DIR	= signal
+ENV_DIR		= env
+FREE_DIR	= free
+SRC = src
+
+SRC_FILES	=	$(addprefix src/builtins/, \
+				cd.c		pwd.c) \
+				\
+				src/main.c
 
 ################################################################################
-#                                 	ASCII ART                                  #
+#                                  OBJETS                                      #
 ################################################################################
 
-YELLOW = \033[1;93m
-RED = \033[0;91m
-CYAN = \033[0;96m
-MAGENTA = \033[1;35m
-WHITE	= \033[1;37m
-GREEN = \033[0;92m
-BLINK	= \033[5m
+OBJS_DIR	= obj
+OBJS		= $(SRC_FILES:%.c=$(OBJS_DIR)/%.o)
+DEPS_DIR    = deps
+DEPS		= $(SRC_FILES:%.c=$(DEPS_DIR)/%.d)
+
 
 ################################################################################
-#                                 	OBJECT                                     #
+#                               OTHER LIBRARY                                  #
 ################################################################################
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DEPS_DIR)
-	@echo "$(MAGENTA)Compiling: $< $(DEF_COLOR)$(END)"
-	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
-	@mkdir -p $(DEPS_DIR)/$(*D)
-	@mv $(@:.o=.d) $(DEPS_DIR)/$(*D)/
+LIB_DIR = libft
 
-OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 ################################################################################
-#                                  ALL / NAME                                  #
+#                                  MAKEFILE                                    #
 ################################################################################
 
-all: $(NAME)
-		
-$(NAME): $(OBJ)
-	@$(MAKE) -C ./Libft 
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -lreadline -lhistory
 
-################################################################################
-#                                  DEPENDANCIES                                #
-################################################################################
+all : $(NAME)
 
-DEPS := $(OBJ:$(OBJ_DIR)/%.o=$(DEPS_DIR)/%.d)
-DEPS += ./Libft/*.d
+$(NAME) : $(OBJS_DIR) $(OBJS)
+	$(CC) $(CFLAGS) $(CIFLAGS) $(OBJS) $(CCLIED) -o $(NAME)
 
-$(DEPS_DIR):
+$(OBJS_DIR) :
+	@printf "$(RED)\n%20s Compilation de la librairie $(END)$(WHITE)$(LIB_DIR)...\n"
+	$(MAKE) -C $(LIB_DIR)
+	@printf "$(RED)%18s Compilation de la librairie $(END)$(WHITE)$(LIB_DIR) terminée$(END)\n\n"
+	@sleep 0.7
+	@printf "$(RED)%20s Création des dossiers content les $(END)$(WHITE).o : \n"
+	@sleep 0.2
+	@printf "$(RED)%24s Création du dossier $(END)$(WHITE)$(OBJS_DIR)...\n"
+	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/$(SRC)
+	@sleep 0.2
+	@printf "$(RED)%20s Création du dossier $(END)$(WHITE)$(OBJS_DIR)/$(SRC)/$(BUILT_DIR)...\n"
+	@mkdir -p $(OBJS_DIR)/$(SRC)/$(BUILT_DIR)
+	@sleep 0.2
+	@printf "$(RED)%20s Création des dossiers $(END)$(WHITE)objets terminée$(END)\n\n"
+	@sleep 0.9
+	@printf "$(RED)%24s Compilation de $(END)$(WHITE)$(NAME)...\n"
+	@sleep 0.2
+	@printf "$(RED)%21s Compilation de $(END)$(WHITE)$(NAME) terminée$(END)\n\n"
+
+$(OBJS) : $(OBJS_DIR)/%.o : %.c | $(DEPS_DIR)
+	@mkdir -p $(dir $(DEPS_DIR)/$*)
+	$(CC) $(CFLAGS) $(DEPFLAGS) -MT $@ -MF $(DEPS_DIR)/$*.d $(CIFLAGS) -c $< -o $@
+
+
+$(DEPS_DIR) :
 	@mkdir -p $(DEPS_DIR)
 
-################################################################################
-#                                  RULES                                       #
-################################################################################
-
-norminette:
-	norminette $(SRC_DIR)
-	norminette Libft/
-	norminette ./includes/
-
-################################################################################
-#                                  CLEAN FCLEAN RE                             #
-################################################################################
-clean:
-	@echo "$(CYAN)Removing: $(OBJ) $(OBJ_DIR) $(DEF_COLOR)"
-	@$(MAKE) -C ./Libft clean
-	@rm -rf $(OBJ_DIR)
+clean :
+	@printf "%s\n\n" "_____________________________________________________________"
+	@printf "$(RED)%19s Nettoyage en cours...$(END)\n"
+	@printf "%s\n" "_____________________________________________________________"
+	$(MAKE) clean -C $(LIB_DIR)
+	@rm -rf $(OBJS_DIR)
 	@rm -rf $(DEPS_DIR)
-	@rm -f ./Libft/*.d
-	@rm -f Libft/GNL/*.d	
-	@rm -f Libft/ft_printf/*.d
+	@printf "\n$(RED)%5sSuppression des objets de la librairie : $(END)$(WHITE)$(LIB_DIR) [📚]$(END)\n"
+	@printf "$(RED)%13s Suppression du dossier : $(END)$(WHITE)$(OBJS_DIR) [✅]$(END)\n"
+	@printf "$(RED)%13s Suppression du dossier : $(END)$(WHITE)$(DEPS_DIR) [✅]$(END)\n"
+	@printf "%s\n\n" "_____________________________________________________________"
 
+	
 fclean: clean
-	@$(MAKE) -C ./Libft fclean
-	@rm -f $(NAME)
-	@echo "$(RED)libft.a remove$(DEF_COLOR)"
-	@echo "$(RED)$(NAME) remove$(DEF_COLOR)"
+	$(MAKE) fclean -C $(LIB_DIR)
+	@rm -rf $(NAME)
+	@printf "$(RED)%7s Suppression de l'exécutable : $(END)$(WHITE)$(NAME) [💾]$(END)\n\n"
+	
+re : fclean all
 
-re: fclean all
-
-################################################################################
-#                                  OTHERS                                      #
-################################################################################
-
-.EXTRA_PREREQS:= $(abspath $(lastword $(MAKEFILE_LIST)))
 -include $(DEPS)
+.PHONY: all clean fclean re
+
