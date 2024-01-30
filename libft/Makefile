@@ -17,20 +17,24 @@ GREEN = \033[0;92m
 YELLOW = \033[0;93m
 BLUE = \033[0;94m
 CYAN = \033[0;96m
+END		= \033[0m
 
 RM = rm -f
 
 .c.o:
 	@${CC} -c ${CFLAGS} -MMD -MP $< -o ${<:.c=.o}
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)$(END)"
 
 ${NAME}: ${OBJS} ${BONUSOBJS} ${SRC2OBJS}
 	@ar rc ${NAME} ${OBJS} ${BONUSOBJS} ${SRC2OBJS}
+	@echo "\n$(GREEN)libft compiled!$(END)"
 
 all: ${NAME}
 
 clean:
 	@${RM} ${OBJS} ${BONUSOBJS} ${SRC2OBJS}
-	@${RM} ${OBJS:.o=.d} ${BONUSOBJS:.o=.d} ${SRC2OBJS:.o=.d}
+	@${RM} Libft/GNL/*.d
+	@${RM} Libft/ft_printf/*.d
 
 fclean: clean
 	@${RM} ${NAME}
@@ -38,4 +42,3 @@ fclean: clean
 re: fclean all
 
 -include $(DEPS)
-
