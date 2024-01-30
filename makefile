@@ -6,7 +6,7 @@
 #    By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/01/30 13:47:03 by azbk             ###   ########.fr        #
+#    Updated: 2024/01/30 13:48:37 by azbk             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 CIFLAGS	= -Iincludes -I$(LIB_DIR)/includes
 CCLIED	= -L$(LIB_DIR) -lft -lreadline
+MAKEFLAGS += --no-print-directory
 
 LIBFT = ./libft/libft.a
 SRC_DIR = ./src
-MAKEFLAGS += --no-print-directory
 
 ################################################################################
 #                                  SOURCES                                     #
@@ -34,6 +34,10 @@ SRC := main.c \
 		builtins/pwd.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
+
+################################################################################
+#                                  OBJECTS / DEP                                #
+################################################################################
 
 OBJ_DIR = obj
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
