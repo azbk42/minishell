@@ -1,0 +1,38 @@
+EXPAND WORD 
+
+je vais recevoir: 
+
+
+struct token
+{
+    char            *word;
+    enum            type;
+    struct token    *next;
+}
+
+chaque word sera une commande avec son type enum
+exemple: 
+
+token[0]:
+{
+    echo
+    ARG
+}
+
+token[1]:
+{
+    "la variable '$USER' est au nom de emauduit"
+    ARG
+}
+
+token[2]:
+{
+    >
+    FILE_OUT
+}
+
+token[3]:
+{
+    text.txt
+    EXIT_FILE
+}

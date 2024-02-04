@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+         #
+#    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/01/30 13:48:37 by azbk             ###   ########.fr        #
+#    Updated: 2024/02/04 19:13:55 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CIFLAGS	= -Iincludes -I$(LIB_DIR)/includes
 CCLIED	= -L$(LIB_DIR) -lft -lreadline
 MAKEFLAGS += --no-print-directory
 
+
 LIBFT = ./libft/libft.a
 SRC_DIR = ./src
 
@@ -31,7 +32,10 @@ SRC_DIR = ./src
 
 SRC := main.c \
 		builtins/cd.c \
-		builtins/pwd.c
+		builtins/pwd.c \
+		\
+		parsing/expand/expand.c \
+		parsing/expand/environnement.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 

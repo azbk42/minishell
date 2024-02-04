@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/01/26 16:30:54 by azbk             ###   ########.fr       */
+/*   Updated: 2024/02/04 19:10:38 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../includes/struct.h"
-#include "../includes/builtin.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,168 +20,115 @@
 #include <readline/history.h>
 #include <sys/wait.h>
 
-char *str_join(char *a, char *b, char *c)
-{
-    size_t size;
-    char *res;
 
-    size = ft_strlen(a) + ft_strlen(b) + ft_strlen(c) + 1;
-    res = malloc(size);
-    if (!res)
-        return (NULL);
-    strcpy(res, a);
-    strcat(res, b);
-    strcat(res, c);
-    return (res);
+t_token *create_token(char *word, t_e_token type) {
+
+    t_token *token = (t_token *)malloc(sizeof(t_token));
+    
+    token->token = strdup(word);
+    token->type = type;
+    token->next = NULL;
+    return token;
 }
 
-char *find_command(char *dir, char *cmd)
-{
-    char *full_path;
 
-    full_path = str_join(dir, "/", cmd);
-    if (!full_path)
-        return (NULL);
-    if (access(full_path, X_OK) == 0)
-        return (full_path);
-    free(full_path);
-    return (NULL);
+void init_data(t_data *data) {
+    // Allouer de la mémoire pour data->cmd
+    data->cmd_list = malloc(sizeof(t_cmd_line));
+
+    // Initialiser data->cmd
+    data->cmd_list->cmd = NULL;
+    data->cmd_list->token_list = NULL;
+    data->cmd_list->args = NULL;
+    data->cmd_list->next = NULL;
+    
+    // Créer les nœuds t_token et les lier pour la première commande
+    t_token *token0 = create_token("'salut\"$USER'\"test\"'lol'", ARG);
+    t_token *token1 = create_token("        \"la variable '$USER' est au nom de emauduit\"      ", ARG);
+    t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'", FILE_OUT);
+    t_token *token3 = create_token("txt.txt", WRITE_FILE);
+
+    // Lier les nœuds t_token pour la première commande
+    token0->next = token1;
+    token1->next = token2;
+    token2->next = token3;
+
+    // Attribuer le premier nœud t_token à data->cmd->token_list
+    data->cmd_list->token_list = token0;
+
+    // Créer une nouvelle commande avec sa propre liste de jetons pour la deuxième commande
+    data->cmd_list->next = malloc(sizeof(t_cmd_line));
+    data->cmd_list->next->cmd = NULL;
+    data->cmd_list->next->token_list = NULL;
+    data->cmd_list->next->args = NULL;
+    data->cmd_list->next->next = NULL;
+
+    // Créer les nœuds t_token et les lier pour la deuxième commande
+    t_token *t_0 = create_token("wc", ARG);
+    t_token *t_1 = create_token("-c", ARG);
+    t_token *t_2 = create_token(">", FILE_OUT);
+    t_token *t_3 = create_token("lol.txt", WRITE_FILE);
+
+    // Lier les nœuds t_token pour la deuxième commande
+    t_0->next = t_1;
+    t_1->next = t_2;
+    t_2->next = t_3;
+
+    // Attribuer le premier nœud t_token à la liste de jetons de la deuxième commande
+    data->cmd_list->next->token_list = t_0;
 }
 
-char *find_command_in_path(char *cmd)
-{
-    char *path;
-    char *path_copy;
-    char *dir;
-    char *found;
 
-    path = getenv("PATH");
-    // ft_printf("%s\n", path);
-    path_copy = ft_strdup(path);
-    if (!path_copy)
-        return (NULL);
-    dir = strtok(path_copy, ":");
-    while (dir != NULL)
-    {
-        found = find_command(dir, cmd);
-        if (found != NULL)
-        {
-            free(path_copy);
-            return (found);
-        }
-        dir = strtok(NULL, ":");
-    }
-    free(path_copy);
-    return (NULL);
-}
-
-void split_command(char *cmd, char *argv[], int max_args)
-{
-    int i;
-    char *token;
-
-    i = 0;
-    token = cmd; // ls -a
-    while (token != NULL && i < max_args - 1)
-    {
-        argv[i++] = token;
-        token = ft_strchr(token, ' ');
-        if (token != NULL)
-        {
-            *token = '\0';
-            token++;
-            while (*token == ' ')
-                token++;
-        }
-    }
-    argv[i] = NULL;
-}
-
-void execute_child_process(char *const argv[], char **env)
-{
-    if (execve(argv[0], argv, env) < 0)
-    {
-        perror("Erreur d'execve");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void wait_for_child(pid_t pid)
-{
-    int status;
-
-    waitpid(pid, &status, WUNTRACED);
-    while (!WIFEXITED(status) && !WIFSIGNALED(status))
-        waitpid(pid, &status, WUNTRACED);
-}
-
-void execute_command(char *cmd, char **env)
-{
-    char *argv[64];
-    char *full_path;
-    pid_t pid;
-
-    split_command(cmd, argv, 64);
-    full_path = find_command_in_path(argv[0]);
-    if (!full_path)
-    {
-        printf("Commande '%s' non trouvée\n", argv[0]);
-        return;
-    }
-    argv[0] = full_path;
-    pid = fork();
-    if (pid < 0)
-    {
-        perror("Erreur de fork");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0)
-        execute_child_process(argv, env);
-    else
-        wait_for_child(pid);
-    free(full_path);
-}
-
-int main() 
+int main(int ac, char **av, char **envp) 
 {    
-    char *line;
+    t_data *data;
+    t_token *current_token;
+    t_cmd_line *command;
     char **env;
-
-    env = NULL;
-    while (true) 
+    
+    if (ac == 0 || !av)
+        return (0);
+    data = malloc(sizeof(t_data)); 
+    data->cmd_list = NULL;
+    data->t = NULL;
+    init_data(data);
+    env = init_env(envp);
+    expand_cmd(data, env);
+    
+    command = data->cmd_list;
+    while (command)
     {
-        line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   
-        if (line == NULL) 
+        current_token = command->token_list;
+        while (current_token) 
         {
-            printf("\nCtrl+D détecté. Au revoir !\n");
-            break;
+            printf("%s\n", current_token->token);
+            current_token = current_token->next;
         }
-        if (ft_strncmp(line, "exit", 5) == 0) 
-		{
-            free(line);
-            break;
-        }
-        if (line != NULL && strlen(line) > 0) 
-        {
-            printf("Commande saisie : %s\n", line);
-            execute_command(line, env);
-            add_history(line);
-        }
-        free(line);
+        command = command->next;
     }
+   
+    // while (true) 
+    // {
+    //     line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   
+    //     if (line == NULL) 
+    //     {
+    //         printf("\nCtrl+D détecté. Au revoir !\n");
+    //         break;
+    //     }
+    //     if (ft_strncmp(line, "exit", 5) == 0) 
+	// 	{
+    //         free(line);
+    //         break;
+    //     }
+        
+    //     if (line != NULL && strlen(line) > 0) 
+    //     {
+    //         printf("Commande saisie : %s\n", line);
+    //         execute_command(line, env);
+    //         add_history(line);
+    //     }
+    //     free(line);
+    // }
     return (0);
 }
 
-
-// int main(int ac, char **av)
-// {
-    
-//     if (ac > 1)
-//     {
-//         if (ft_strncmp(av[1] , "pwd", 4) == 0)
-//         {
-//         ft_pwd();
-//         }   
-//     }
-    
-// }
