@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:04:56 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/03 19:18:24 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:15:22 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <stdio.h>
 
 
+
+
+void print_error(const char *message);
 
 
 #endif

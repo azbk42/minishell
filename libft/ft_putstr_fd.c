@@ -6,13 +6,13 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 07:58:45 by azbreak           #+#    #+#             */
-/*   Updated: 2023/11/07 11:37:37 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:18:50 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	int	i;
 

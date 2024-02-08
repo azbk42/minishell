@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environnement.c                                    :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 19:11:07 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/04 19:13:46 by emauduit         ###   ########.fr       */
+/*   Created: 2024/02/06 12:16:47 by emauduit          #+#    #+#             */
+/*   Updated: 2024/02/06 17:08:39 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
 
-char **init_env(char **envp)
+void print_error(const char *message)
 {
-    envp = NULL;
-
-    return (NULL);
+    ft_putstr_fd(message, 2);
 }

@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/04 19:10:38 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:31:54 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int main(int ac, char **av, char **envp)
     data->t = NULL;
     init_data(data);
     env = init_env(envp);
+    if (!env)
+        return (1);
     expand_cmd(data, env);
     
     command = data->cmd_list;
@@ -101,12 +103,11 @@ int main(int ac, char **av, char **envp)
         current_token = command->token_list;
         while (current_token) 
         {
-            printf("%s\n", current_token->token);
+            //printf("%s\n", current_token->token);
             current_token = current_token->next;
         }
         command = command->next;
     }
-   
     // while (true) 
     // {
     //     line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   

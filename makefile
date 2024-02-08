@@ -6,7 +6,7 @@
 #    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/04 19:13:55 by emauduit         ###   ########.fr        #
+#    Updated: 2024/02/07 16:39:00 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,12 @@ SRC := main.c \
 		builtins/pwd.c \
 		\
 		parsing/expand/expand.c \
-		parsing/expand/environnement.c
+		parsing/expand/find_count_len.c \
+		parsing/expand/delete_quotes.c \
+		parsing/expand/exp_quotes.c \
+		\
+		parsing/error/error_handling.c
+		
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 

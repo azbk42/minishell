@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:00:54 by azbreak           #+#    #+#             */
-/*   Updated: 2024/01/22 14:19:38 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/06 12:18:43 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 void				ft_putchar_fd(char c, int fd);
 
-void				ft_putstr_fd(char *s, int fd);
+void				ft_putstr_fd(const char *s, int fd);
 
 void				ft_putendl_fd(char *s, int fd);
 
