@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 12:04:56 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/09 20:10:42 by azbk             ###   ########.fr       */
+/*   Created: 2024/02/09 14:19:20 by azbk              #+#    #+#             */
+/*   Updated: 2024/02/09 14:20:54 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "../libft/libft.h"
-#include "struct.h"
-#include "builtin.h"
-#include "parsing.h"
-#include <stdio.h>
+char	*ft_strcat(char *s1, const char *s2)
+{
+	int	i;
+	int	j;
 
-# define MALLOC_ERROR NULL
-# define VAR_NULL NULL
-
-
-
-void print_error(const char *message);
-
-
-#endif
+	i = 0;
+	j = 0;
+	if (s1 == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		i++;
+	}
+	while (s2[j])
+	{
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
+	s1[i] = '\0';
+	return (s1);
+}

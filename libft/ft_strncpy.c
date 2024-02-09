@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 12:04:56 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/09 20:10:42 by azbk             ###   ########.fr       */
+/*   Created: 2024/02/09 14:15:37 by azbk              #+#    #+#             */
+/*   Updated: 2024/02/09 16:04:11 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "../libft/libft.h"
-#include "struct.h"
-#include "builtin.h"
-#include "parsing.h"
-#include <stdio.h>
+char	*ft_strncpy(char *dst, const char *src, int n)
+{
+	int	i;
 
-# define MALLOC_ERROR NULL
-# define VAR_NULL NULL
-
-
-
-void print_error(const char *message);
-
-
-#endif
+	i = 0;
+	while (src[i] && i < n)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:00:54 by azbreak           #+#    #+#             */
-/*   Updated: 2024/02/06 12:18:43 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:04:27 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ void				*ft_memmove(void *dest, const void *src, size_t n);
 size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
+
+char				*ft_strncpy(char *dst, const char *src, int n);
+
+char				*ft_strcat(char *dst, const char *src);
 
 int					ft_toupper(int c);
 

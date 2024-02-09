@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
+#    By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/07 16:39:00 by emauduit         ###   ########.fr        #
+#    Updated: 2024/02/09 19:57:25 by azbk             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Wextra -g
 CIFLAGS	= -Iincludes -I$(LIB_DIR)/includes
 CCLIED	= -L$(LIB_DIR) -lft -lreadline
 MAKEFLAGS += --no-print-directory
@@ -36,7 +36,6 @@ SRC := main.c \
 		\
 		parsing/expand/expand.c \
 		parsing/expand/find_count_len.c \
-		parsing/expand/delete_quotes.c \
 		parsing/expand/exp_quotes.c \
 		\
 		parsing/error/error_handling.c

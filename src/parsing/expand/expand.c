@@ -3,137 +3,217 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/07 17:21:43 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/09 20:50:33 by azbk             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
 
+size_t find_len_var(char *line)
+{
+	size_t len_var;
 
+	len_var = 0;
+	if (line[0] == '$')
+		line++;
+	if (line[1] == '?')
+	{
+		len_var++;
+		return (len_var);		
+	}
+	while (line[len_var] && (ft_isalnum(line[len_var]) == 1 || line[len_var] == '_'))
+	{
+		len_var++;
+	}
+	printf("len var = %ld\n", len_var);
+	return (len_var);
+}
+char *one_dollar(int *i)
+{
+	char *str;
 
+	str = malloc(2);
+	if (str == NULL)
+		return (MALLOC_ERROR);
+	str[0] = '$';
+	str[1] = '\0';
+	(*i)++;
+	return (str);
+}
 
-// void expand_dbl_quotes(char *line, char *word, char **env)
+// char *get_value_env(char *variable)
 // {
 // 	int i;
+// 	char *value;
+// 	char **env;
 
 // 	i = 0;
-// 	while (line[i])
+// 	value = NULL;
+// 	env = g_global->env;
+// 	while (env[i])
+// 	{
+// 		if (ft_strncmp(env[i], variable, ft_strlen(variable)) == 0)
+// 		{
+// 			value = ft_strdup(&env[i][ft_strlen(variable) + 1]);
+// 			if (value == NULL)
+// 				return (MALLOC_ERROR);
+// 			return (value);
+// 		}
+// 		i++;
+// 	}
+// 	return (VAR_NULL);
 // }
 
-// int len_variable(char *word, char **env, int i)
-// {
-// 	int i;
-// 	int j;
-// 	int len;
+// il reste a chopper la valeur de la variable, et aussi faire la manip quand ya un ? apres le $
+char *exp_with_dollar(char *line, int *i)
+{
+	char *new_str;
+	char *variable;
+	size_t len_var;
 
-// 	i = 0;
-// 	len = 0;
+	variable = NULL;
+	new_str = NULL;
+	len_var = find_len_var(&line[*i]);
+	printf("line[*i] = %c\n", line[*i]);
+	if (len_var == 0)
+		return (one_dollar(i));
+	// if (len_var == 1 && line[*i + 1] == '?')
+	// {
+	// 	new_str = ft_itoa(g_global->status);
+	// 	if (new_str == NULL)
+	// 		return (MALLOC_ERROR);
+	// }
 	
-// }
-
-// char *expand_no_quote(char *line, char **env, int *i)
-// {
-// 	char *str;
-
-// 	str = malloc(sizeof(char) * count_future_len(line, env, i));
-// 	if (!str)
-// 		return (NULL);
-
-// }
-
-
-
-= find_name_var(&line[len]);
-    if (word)
-
-
-char	*check_env_variable(char *line, char **env)
+	variable = malloc(sizeof(char) * (len_var + 1));
+	if (variable == NULL)
+		return (MALLOC_ERROR);
+	variable = ft_strncpy(variable, &line[*i+1], len_var);
+	(*i) += len_var + 1;
+	printf("variable = %s\n", variable);
+	//new_str = get_value_env(variable);
+	new_str = NULL;
+	free(variable);
+	return (new_str);
+}
+char *init_exp_with_dollar(char *line, char *str_expand, int *i)
 {
-	char	prec;
-	char **exp_var;
-	int		i;
-	int j;
-
-	if (count_nb_var_exp(line) == 0)
-		return (line);
-	exp_var = malloc((count_nb_var_exp(line) + 1) * sizeof(char *));
-	//printf("count = %d\n", count_nb_var_exp(line));
-	if (!exp_var)
-		return (perror("erreur malloc exp_var"), NULL);
-	env = NULL;
-	j = 0;
-	prec = 0;
-	i = -1;
-	while (line[++i])
-	{
-		//printf("i = %d and line[i] = %c\n",i, line[i]);
-		if ((line[i] == '"' || line[i] == '\'') && prec == 0)
-			prec = line[i];
-		else if ((line[i] == prec || line[i] == prec) && prec != 0)
-			prec = 0;
-		if (prec == '\'')
-			exp_var[j] = expand_smpl_quotes(&line[i], &i);
-		else if (prec == 0)
-		 	exp_var[j] = expand_no_quote(&line[i], env, &i);
-		// else if (prec == '"')
-		// 	exp_var[j] = expand_dbl_quotes(&line[i], env, &i);
-		
-		j++;
-	}
-	// exp_var[j] = '\0';
-	// free(line);
-	// line = join_exp_var(exp_var);
-	// free_dbl_char(exp_var);
-	return (line);
+	char *str_exp;
+	char *str_join;
+	
+	str_exp = exp_with_dollar(line, i);
+	
+	str_join = ft_strjoin(str_expand, str_exp);
+	free(str_exp);
+	free(str_expand);
+	return (str_join);
 }
 
-void	expand_all_token(t_token *expd_tok_list, char **env)
+char *expand_dbl_quotes(char *line, char *str_expand, int *i)
 {
-	t_token	*token_lst;
-	char	*line;
-	char	*tmp;
-
-	env = NULL;
-	token_lst = expd_tok_list;
-	while (token_lst)
+	while (line && line[*i] && line[*i] != '"')
 	{
-		line = token_lst->token;
-		if (!line || line[0] == '\0')
-			return ;
-		// retirer les espaces
-		tmp = ft_strtrim(line, " ");
-		free(line);
-		// regarder si la $ existe dans lenv
-		// find_word("SLT salut");
-
-		line = check_env_variable("'salut a tous'Yo$USER'bonsoir paris'", env);
-		//
-		// expand les $ si necessaire
-		// supprimer les quotes useless
-		line = init_delete_quote(tmp);
-		free(tmp);
-		token_lst->token = line;
-		token_lst = token_lst->next;
-	}
-}
-
-void	expand_cmd(t_data *data, char **env)
-{
-	t_cmd_line *current;
-	t_token *expd_tok_list;
-
-	current = data->cmd_list;
-	if (current)
-	{
-		while (current)
+		if (line[*i] != '$')
 		{
-			expd_tok_list = current->token_list;
-			expand_all_token(expd_tok_list, env);
-			current = current->next;
+			str_expand = exp_without_dollar(line, str_expand, i);
+		}
+		else
+		{
+			str_expand = init_exp_with_dollar(line, str_expand, i);
+		}
+		if (str_expand == NULL)
+			return (MALLOC_ERROR);
+	}
+	return (str_expand);
+}
+
+void start_expand(t_token *lst_token, char *line, char *str_expand, int *i)
+{
+	char quote;
+	printf("line = %s\n", line);
+	quote = 0;
+	while (line[*i])
+	{
+		if ((line[*i] == '"' || line[*i] == '\'') && quote == 0)
+		{
+			quote = line[*i];
+			(*i)++;
+		}
+		if (line[*i] == quote && quote != 0)
+		{
+			quote = 0;
+			(*i)++;
+		}
+		else
+		{
+			if (quote == '\'')
+			{
+				printf("je rentre\n");
+				str_expand = expand_smpl_quotes(line, str_expand, i);
+			}
+			if(quote == '"')
+			{
+				printf("je rentre pour double quote\n");
+				str_expand = expand_dbl_quotes(line, str_expand, i);
+			}
+			// if (quote == 0)
+			// {
+			// 	str_expand = expand_no_quotes(line, str_expand, i);
+			// }	
+		}
+		printf("str_expand = %s\n", str_expand);
+		
+	}
+	free(line);
+	//printf("str_expand = %s\n", str_expand);
+	lst_token->token = str_expand;
+	//printf("lst_token->token = %s\n", lst_token->token);
+}
+
+
+
+void	expand_token(t_token *lst_token, char *line, t_e_token type)
+{
+	int i;
+	char *str_expand;
+	char *line_duplicate;
+
+	i = 0;
+	line_duplicate = ft_strdup(line);
+	free(line);
+	line = ft_strtrim(line_duplicate, " ");
+	free(line_duplicate);
+	str_expand = NULL;
+	if (!line || line[0] == '\0')
+		return ;
+	if (type == LIMITOR)
+		return ; // pas besoin d'expand les limitors mais on doit enlever les quotes
+	else
+		start_expand(lst_token, line, str_expand, &i);
+}
+
+
+
+void	expand_all_token(t_data *data)
+{
+	t_cmd_line *command;
+	t_token *token_list;
+
+	command = data->cmd_list;
+	if (command)
+	{
+		while (command)
+		{
+			token_list = command->token_list;
+			while (token_list)
+			{
+				expand_token(token_list ,token_list->token, token_list->type);
+				token_list = token_list->next;
+			}
+			command = command->next;
 		}
 	}
 }
