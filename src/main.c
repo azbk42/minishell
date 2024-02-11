@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/09 20:52:23 by azbk             ###   ########.fr       */
+/*   Updated: 2024/02/11 12:40:37 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void init_data(t_data *data) {
     data->cmd_list->next = NULL;
     
     // Créer les nœuds t_token et les lier pour la première commande
-    t_token *token0 = create_token("'slt''yo'\"Bonjour $$ $USERR PloP\"", ARG);
+    t_token *token0 = create_token("'slt''yo'\"Bonjour $$ $USER PloP\"", ARG);
     // t_token *token1 = create_token("        \"la variable '$USER' est au nom de emauduit\"      ", ARG);
     // t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'", FILE_OUT);
     // t_token *token3 = create_token("txt.txt", WRITE_FILE);
@@ -79,34 +79,37 @@ void init_data(t_data *data) {
 }
 
 
-int main(int ac, char **av) 
+int main(int ac, char **av, char **envp) 
 {    
     t_data *data;
-    t_token *current_token;
-    t_cmd_line *command;
+   // t_token *current_token;
+    //t_cmd_line *command;
     
     if (ac == 0 || !av)
         return (0);
     data = malloc(sizeof(t_data)); 
     data->cmd_list = NULL;
     data->t = NULL;
-    init_data(data);
-    // env = init_env(envp);
-    // if (!env)
-    //     return (1);
-    expand_all_token(data);
+    ft_init_lst_env((const char **)envp);    
     
-    command = data->cmd_list;
-    while (command)
-    {
-        current_token = command->token_list;
-        while (current_token) 
-        {
-            //printf("%s\n", current_token->token);
-            current_token = current_token->next;
-        }
-        command = command->next;
-    }
+
+    // init_data(data);
+    // // env = init_env(envp);
+    // // if (!env)
+    // //     return (1);
+    // expand_all_token(data);
+    
+    // command = data->cmd_list;
+    // while (command)
+    // {
+    //     current_token = command->token_list;
+    //     while (current_token) 
+    //     {
+    //         //printf("%s\n", current_token->token);
+    //         current_token = current_token->next;
+    //     }
+    //     command = command->next;
+   // }
     // while (true) 
     // {
     //     line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+         #
+#    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/09 19:57:25 by azbk             ###   ########.fr        #
+#    Updated: 2024/02/11 12:39:29 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,13 @@ SRC := main.c \
 		parsing/expand/expand.c \
 		parsing/expand/find_count_len.c \
 		parsing/expand/exp_quotes.c \
+		parsing/expand/env.c \
+		parsing/expand/singletone.c \
 		\
-		parsing/error/error_handling.c
-		
+		parsing/linked_list/lst_env.c \
+		\
+		parsing/error/error_handling.c \
+		parsing/tools_suppr/tools.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/07 13:01:34 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/11 10:59:08 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ typedef struct s_data
 
 typedef struct s_env
 {
-	char					*str;
+	char 					*str;
+	char					*key;
+	char					*value;
 	t_env					*next;
 }							t_env;
 
