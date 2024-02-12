@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 16:02:53 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:01:08 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand, int *
 			(*i)++;
 		}
 		else
-		{
 			str_expand = exp_according_quotes(line, str_expand, i, quote);
-		}
 	}
 	free(line);
 	lst_token->token = str_expand;
@@ -65,8 +63,9 @@ static void	expand_token(t_token *lst_token, char *line, t_e_token type)
 	if (!line || line[0] == '\0')
 		return ;
 	if (type == LIMITOR)
-		return ;
-			// pas besoin d'expand les limitors mais on doit enlever les quotes
+	{
+		init_delete_quote(lst_token, line);	
+	}
 	else
 		start_expand(lst_token, line, str_expand, &i);
 }

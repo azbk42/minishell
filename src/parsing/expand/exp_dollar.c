@@ -6,12 +6,11 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:13:16 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 15:47:41 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 16:57:18 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
 
 char *one_dollar(int *i)
 {
@@ -55,7 +54,6 @@ char *exp_with_dollar(const char *line, int *i)
 	// 	if (new_str == NULL)
 	// 		return (MALLOC_ERROR);
 	// }
-	
 	variable = malloc(sizeof(char) * (len_var + 1));
 	if (variable == NULL)
 		return (MALLOC_ERROR);

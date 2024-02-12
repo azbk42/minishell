@@ -6,12 +6,11 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:11:07 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 15:26:34 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:04:35 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
 
 size_t find_len_var(const char *line)
 {
