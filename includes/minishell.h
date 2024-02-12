@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:04:56 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 11:58:16 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:23:43 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,22 @@ void print_error(const char *message);
 
 
 /* -------------------------------------------------------------------------- */
+/*                                    SINGLETON                               */
+/* -------------------------------------------------------------------------- */
+t_env	**ft_singletone_env(void);
+
+
+/* -------------------------------------------------------------------------- */
 /*                                    FREE                                    */
 /* -------------------------------------------------------------------------- */
 void ft_free_env_list(t_env **env);
 void free_strs(char *s1, char *s2);
+
+void	ft_free_data(t_data *data);
+void	ft_free_commands(t_cmd_line *command);
+void	ft_free_cmd(t_cmd_line *cmd);
+void	ft_free_array(char **tab);
+void	ft_free_tokens(t_token *tokens);
+
 
 #endif

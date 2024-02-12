@@ -6,7 +6,7 @@
 #    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/12 11:40:46 by emauduit         ###   ########.fr        #
+#    Updated: 2024/02/12 15:20:21 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ SRC := main.c \
 		builtins/env.c \
 		\
 		free/free_env.c \
+		free/free_struct.c \
 		\
+		parsing/expand/exp_dollar.c \
 		parsing/expand/expand.c \
 		parsing/expand/find_count_len.c \
 		parsing/expand/exp_quotes.c \

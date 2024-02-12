@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 12:50:06 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:07:37 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void init_data(t_data *data) {
     data->cmd_list->next = NULL;
     
     // Créer les nœuds t_token et les lier pour la première commande
-    t_token *token0 = create_token("'slt''yo'\"Bonjour $$ $USER PloP\"", ARG);
+    t_token *token0 = create_token("'slt''yo'\"Bonjour $$ $USER Plop\"", ARG);
     // t_token *token1 = create_token("        \"la variable '$USER' est au nom de emauduit\"      ", ARG);
     // t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'", FILE_OUT);
     // t_token *token3 = create_token("txt.txt", WRITE_FILE);
@@ -83,6 +83,7 @@ int main(int ac, char **av, char **envp)
 {    
     t_data *data;
     t_token *current_token;
+    
     t_cmd_line *command;
     
     if (ac == 0 || !av)
@@ -93,11 +94,10 @@ int main(int ac, char **av, char **envp)
     ft_init_lst_env((const char **)envp);    
 
     init_data(data);
-    // env = init_env(envp);
-    // if (!env)
-    //     return (1);
     expand_all_token(data);
     
+    t_env **env = ft_singletone_env();
+    ft_free_env_list(env);
     command = data->cmd_list;
     while (command)
     {
@@ -109,6 +109,7 @@ int main(int ac, char **av, char **envp)
         }
         command = command->next;
    }
+   ft_free_data(data);
     return (0);
 }
 

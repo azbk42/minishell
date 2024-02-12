@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 10:20:25 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 11:40:53 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:19:03 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	ft_init_lst_env(const char **envp)
 			return (ERROR);
 		len--;
 	}
-	ft_print_env(env);
-	ft_free_env_list(env);
+	//ft_print_env(env);
+	//ft_free_env_list(env);
 	return (OK);
 }

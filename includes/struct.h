@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/11 10:59:08 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:49:56 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_cmd_line
 {
 	char					*cmd;
 	t_token					*token_list;
-	char					**env;
 	char					**args;
 	t_cmd_line				*next;
 }							t_cmd_line;
