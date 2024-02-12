@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:13:16 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 15:27:07 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 15:47:41 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,30 @@ char *exp_without_dollar(const char *line, char *str_expand, int *i)
 	j = *i;
 	new_str = NULL;
 	while (line && line[*i] && line[*i] != '$' && line[*i] != '"')
+		(*i)++;
+	str = malloc(sizeof(char) * ((*i) - j + 1));
+	if (str == NULL)
+	{
+		if (str_expand)
+			free(str_expand);
+		return (MALLOC_ERROR);
+	}
+	str = ft_strncpy(str, &line[j], (*i) - j);
+	new_str = ft_strjoin(str_expand, str);
+	free(str);
+	free(str_expand);
+	return (new_str);
+}
+char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i)
+{
+	char	*str;
+	char	*new_str;
+	int		j;
+
+	j = *i;
+	new_str = NULL;
+	while (line && line[*i] && line[*i] != '$' && line[*i] != '"'
+		&& line[*i] != '\'')
 		(*i)++;
 	str = malloc(sizeof(char) * ((*i) - j + 1));
 	if (str == NULL)
