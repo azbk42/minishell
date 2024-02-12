@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 10:20:25 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/11 12:37:44 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:58:29 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *ft_dup_key(const char *line)
         i++;
     }
     if (i == 0)
-        return (NULL);
+        return (VAR_EMPTY);
     key = malloc(sizeof(char) * (i + 1));
     if (key == NULL)
         return (MALLOC_ERROR);
@@ -42,20 +42,24 @@ static char *ft_dup_value(const char *line)
     if (line[i] == '=')
         i++;
     value = ft_strdup(&line[i]);
+    if (value == NULL)
+        return (MALLOC_ERROR);
     return (value);
-    
 }
 
-void ft_lst_env(const char *line, t_env **env)
+bool ft_lst_env(const char *line, t_env **env)
 {
     t_env *new;
 
     new = malloc(sizeof(t_env));
     if (new == NULL)
-        return ;
+        return (ERROR);
     new->str = ft_strdup(line);
     new->key = ft_dup_key(line);
     new->value = ft_dup_value(line);
     new->next = *env;
     *env = new;
+    if (!new->str || !new->key || !new->value)
+        return (ERROR);
+    return (OK);
 }

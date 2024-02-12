@@ -6,7 +6,7 @@
 #    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/11 12:39:29 by emauduit         ###   ########.fr        #
+#    Updated: 2024/02/12 11:40:46 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,14 @@ SRC_DIR = ./src
 SRC := main.c \
 		builtins/cd.c \
 		builtins/pwd.c \
+		builtins/shlvl.c \
+		builtins/env.c \
+		\
+		free/free_env.c \
 		\
 		parsing/expand/expand.c \
 		parsing/expand/find_count_len.c \
 		parsing/expand/exp_quotes.c \
-		parsing/expand/env.c \
 		parsing/expand/singletone.c \
 		\
 		parsing/linked_list/lst_env.c \

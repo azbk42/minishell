@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:36:51 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/11 12:22:58 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:25:28 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ char	*init_delete_quote(char *line);
 /*                                    TOOLS ENV                               */
 /* -------------------------------------------------------------------------- */
 
-int		ft_len_env(const char **envp);
+size_t ft_len_env(const char **envp);
 bool	is_in_env(const char *line, const char **env);
 
 /* -------------------------------------------------------------------------- */
 /*                                    SETUP ENV                               */
 /* -------------------------------------------------------------------------- */
 bool ft_init_lst_env(const char **envp);
-void ft_lst_env(const char *line, t_env **env);
+bool ft_lst_env(const char *line, t_env **env);
 
 /* -------------------------------------------------------------------------- */
 /*                                    SINGLETON                               */

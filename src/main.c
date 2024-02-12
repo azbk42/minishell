@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/11 12:40:37 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:50:06 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void init_data(t_data *data) {
 int main(int ac, char **av, char **envp) 
 {    
     t_data *data;
-   // t_token *current_token;
-    //t_cmd_line *command;
+    t_token *current_token;
+    t_cmd_line *command;
     
     if (ac == 0 || !av)
         return (0);
@@ -91,47 +91,24 @@ int main(int ac, char **av, char **envp)
     data->cmd_list = NULL;
     data->t = NULL;
     ft_init_lst_env((const char **)envp);    
-    
 
-    // init_data(data);
-    // // env = init_env(envp);
-    // // if (!env)
-    // //     return (1);
-    // expand_all_token(data);
+    init_data(data);
+    // env = init_env(envp);
+    // if (!env)
+    //     return (1);
+    expand_all_token(data);
     
-    // command = data->cmd_list;
-    // while (command)
-    // {
-    //     current_token = command->token_list;
-    //     while (current_token) 
-    //     {
-    //         //printf("%s\n", current_token->token);
-    //         current_token = current_token->next;
-    //     }
-    //     command = command->next;
-   // }
-    // while (true) 
-    // {
-    //     line = readline("\001\033[1;33m\002MonMinishell>\001\033[0m\002 ");   
-    //     if (line == NULL) 
-    //     {
-    //         printf("\nCtrl+D détecté. Au revoir !\n");
-    //         break;
-    //     }
-    //     if (ft_strncmp(line, "exit", 5) == 0) 
-	// 	{
-    //         free(line);
-    //         break;
-    //     }
-        
-    //     if (line != NULL && strlen(line) > 0) 
-    //     {
-    //         printf("Commande saisie : %s\n", line);
-    //         execute_command(line, env);
-    //         add_history(line);
-    //     }
-    //     free(line);
-    // }
+    command = data->cmd_list;
+    while (command)
+    {
+        current_token = command->token_list;
+        while (current_token) 
+        {
+            //printf("%s\n", current_token->token);
+            current_token = current_token->next;
+        }
+        command = command->next;
+   }
     return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/09 20:50:33 by azbk             ###   ########.fr       */
+/*   Updated: 2024/02/12 11:58:24 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char *one_dollar(int *i)
 // 		}
 // 		i++;
 // 	}
-// 	return (VAR_NULL);
+// 	return (VAR_EMPTY);
 // }
 
 // il reste a chopper la valeur de la variable, et aussi faire la manip quand ya un ? apres le $

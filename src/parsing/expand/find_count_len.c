@@ -6,15 +6,15 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:11:07 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/11 12:36:29 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/12 10:27:04 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int ft_len_env(const char **envp)
+size_t ft_len_env(const char **envp)
 {
-    int i;
+    size_t i;
     
     i = 0;
     if (!envp)
@@ -26,8 +26,8 @@ int ft_len_env(const char **envp)
 
 bool is_in_env(const char *line, const char **env)
 {
-	int i;
-	int j;
+	size_t i;
+	size_t j;
 
 	i = 0;
 	while (env[i])
