@@ -6,23 +6,23 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 17:01:08 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:50:05 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static char *exp_according_quotes(const char *line, char *str_expand, int *i, char quote)
+static char *exp_according_quotes(t_token **tok ,const char *line, char *str_expand, int *i, char quote)
 {
 	if (quote == '\'')
 		str_expand = expand_smpl_quotes(line, str_expand, i);
 	else if (quote == '"')
 		str_expand = expand_dbl_quotes(line, str_expand, i);
 	else if (quote == 0)
-		str_expand = expand_no_quote(line, str_expand, i);
+		str_expand = expand_no_quote(tok, line, str_expand, i);
 	return (str_expand);
 }
-static void	start_expand(t_token *lst_token, char *line, char *str_expand, int *i)
+static void	start_expand(t_token **lst_token, char *line, char *str_expand, int *i)
 {
 	char	quote;
 
@@ -41,14 +41,13 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand, int *
 			(*i)++;
 		}
 		else
-			str_expand = exp_according_quotes(line, str_expand, i, quote);
+			str_expand = exp_according_quotes(lst_token, line, str_expand, i, quote);
 	}
 	free(line);
-	lst_token->token = str_expand;
-	printf("lst_token_expand = %s\n", lst_token->token);
+	(*lst_token)->token = str_expand;
 }
 
-static void	expand_token(t_token *lst_token, char *line, t_e_token type)
+static bool	expand_token(t_token **lst_token, char *line, t_e_token type)
 {
 	int		i;
 	char	*str_expand;
@@ -56,21 +55,34 @@ static void	expand_token(t_token *lst_token, char *line, t_e_token type)
 
 	i = 0;
 	line_duplicate = ft_strdup(line);
-	free(line);
+	if (line)
+		free(line);
 	line = ft_strtrim(line_duplicate, " ");
-	free(line_duplicate);
+	if (line_duplicate)
+		free(line_duplicate);
 	str_expand = NULL;
-	if (!line || line[0] == '\0')
-		return ;
+	if (line[0] == '\0')
+		return (OK);
+	if (!line)
+		return (ERROR);
 	if (type == LIMITOR)
 	{
-		init_delete_quote(lst_token, line);	
+		if (init_delete_quote(lst_token, line) == ERROR)
+			return (ERROR);
 	}
 	else
+	{
+		str_expand = malloc(1);
+		if (str_expand == NULL)
+			return (ERROR);
+		str_expand[0] = '\0';
 		start_expand(lst_token, line, str_expand, &i);
+	}
+	return (OK);
 }
+		
 
-void	expand_all_tokens(t_data *data)
+bool	expand_all_tokens(t_data *data)
 {
 	t_cmd_line	*command;
 	t_token		*token_list;
@@ -83,10 +95,12 @@ void	expand_all_tokens(t_data *data)
 			token_list = command->token_list;
 			while (token_list)
 			{
-				expand_token(token_list, token_list->token, token_list->type);
+				if (expand_token(&token_list, token_list->token, token_list->type) == ERROR)
+					return (ERROR);
 				token_list = token_list->next;
 			}
 			command = command->next;
 		}
 	}
+	return (OK);
 }

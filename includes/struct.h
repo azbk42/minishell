@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 14:49:56 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:57:42 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_token
 {
 	char					*token;
 	t_e_token				type;
+	int						space;
 	t_token					*next;
 }							t_token;
 
@@ -55,7 +56,7 @@ typedef struct s_data
 
 typedef struct s_env
 {
-	char 					*str;
+	char					*str;
 	char					*key;
 	char					*value;
 	t_env					*next;

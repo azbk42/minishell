@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 16:58:05 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:15:34 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void init_data(t_data *data) {
     data->cmd_list->next = NULL;
     
     // Créer les nœuds t_token et les lier pour la première commande
-    t_token *token0 = create_token("'s'\"'k'\"", LIMITOR);
-    // t_token *token1 = create_token("        \"la variable '$USER' est au nom de emauduit\"      ", ARG);
+    t_token *token0 = create_token("'s'\"'k'\"", ARG);
+    t_token *token1 = create_token("    $LS\"Bonjour\"      ", ARG);
     // t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'", FILE_OUT);
     // t_token *token3 = create_token("txt.txt", WRITE_FILE);
 
     // Lier les nœuds t_token pour la première commande
-    // token0->next = token1;
+     token0->next = token1;
     // token1->next = token2;
     // token2->next = token3;
 
@@ -94,17 +94,19 @@ int main(int ac, char **av, char **envp)
     ft_init_lst_env((const char **)envp);    
 
     init_data(data);
-    expand_all_tokens(data);
+    if (expand_all_tokens(data) == ERROR)
+        ft_free_data(data);
     
     t_env **env = ft_singletone_env();
     ft_free_env_list(env);
     command = data->cmd_list;
+    int i = 0;
     while (command)
     {
         current_token = command->token_list;
         while (current_token) 
         {
-            //printf("%s\n", current_token->token);
+            printf("token[%d] = %s\n", ++i ,current_token->token);
             current_token = current_token->next;
         }
         command = command->next;

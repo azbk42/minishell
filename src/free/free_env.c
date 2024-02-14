@@ -6,11 +6,12 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 10:29:02 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 11:11:17 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:46:03 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 void free_strs(char *s1, char *s2)
 {

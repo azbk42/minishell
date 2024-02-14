@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:43:47 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 14:57:34 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:11:37 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	ft_free_tokens(t_token *tokens)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		free(cur->token);
-		free(cur);
+		if (cur->token)
+			free(cur->token);
+		if (cur)
+			free(cur);
 		cur = next;
 	}
 }
@@ -69,10 +71,8 @@ void	ft_free_data(t_data *data)
 {
 	if (data)
 	{
-		if (data->t)
-			ft_free_tokens(data->t);
 		if (data->cmd_list)
 			ft_free_commands(data->cmd_list);
 	}
-    free(data);
+	free(data);
 }
