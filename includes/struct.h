@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:13:12 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 11:57:42 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:04:48 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef enum token
 typedef struct s_token
 {
 	char					*token;
+	int						jump;
 	t_e_token				type;
-	int						space;
 	t_token					*next;
 }							t_token;
 
