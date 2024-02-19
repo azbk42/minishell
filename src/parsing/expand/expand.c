@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 15:04:52 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:10:55 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ static void	start_expand(t_token **lst_token, char *line, char *str_expand,
 		{
 			str_expand = exp_according_quotes(lst_token, line, str_expand, i,
 					quote);
-			if ((*lst_token)->jump > 0)
-			{
-				int i = 2;
-				(*lst_token)->token = str_expand;
-				while (i-- > 0)
-				{
-					(*lst_token) = (*lst_token)->next; 
-				}
-				str_expand = (*lst_token)->token;
-			}
 		}
 		printf("str_expand = %s\n", str_expand);
 	}

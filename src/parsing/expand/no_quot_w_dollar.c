@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 15:14:02 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:10:22 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ char	*init_no_quote_with_dollar(t_token **token, const char *line,
 	printf("new str = %s\n", new_str);
 	if (new_str == NULL)
 	{
-		free(str_expand);
-		return (NULL);
+		return (str_expand);
 	}
 	tab = ft_split(new_str, ' ');
 	(*token)->jump = ft_len_tab(tab) - 1;
+	printf("len tab = %lu\n", (ft_len_tab(tab) - 1));
 	free(new_str);
 	if (tab == NULL)
 		return (MALLOC_ERROR);
