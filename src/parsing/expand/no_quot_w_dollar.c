@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/19 15:10:22 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:27:52 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,5 @@ char	*init_no_quote_with_dollar(t_token **token, const char *line,
 	(*token)->token = str_join;
 	if (add_split_to_token(token, tab, 1) == ERROR)
 		return (NULL);
-	return (str_join);
+	return (NULL);
 }

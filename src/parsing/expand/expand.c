@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/19 15:10:55 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:31:23 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*exp_according_quotes(t_token **tok, const char *line,
 		str_expand = expand_no_quote(tok, line, str_expand, i);
 	return (str_expand);
 }
-static void	start_expand(t_token **lst_token, char *line, char *str_expand,
+static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 		int *i)
 {
 	char	quote;
@@ -44,16 +44,24 @@ static void	start_expand(t_token **lst_token, char *line, char *str_expand,
 		}
 		else
 		{
-			str_expand = exp_according_quotes(lst_token, line, str_expand, i,
+			str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
 					quote);
+			int jump = lst_token->jump;
+			while (jump > 0)
+			{
+				
+				lst_token = lst_token->next;
+				str_expand = lst_token->token;
+				jump--;
+			}
 		}
 		printf("str_expand = %s\n", str_expand);
 	}
-	free(line);
-	(*lst_token)->token = str_expand;
+	// free(line);
+	lst_token->token = str_expand;
 }
 
-static bool	expand_token(t_token **lst_token, char *line, t_e_token type)
+static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 {
 	int		i;
 	char	*str_expand;
@@ -100,7 +108,7 @@ bool	expand_all_tokens(t_data *data)
 			token_list = command->token_list;
 			while (token_list)
 			{
-				if (expand_token(&token_list, token_list->token,
+				if (expand_token(token_list, token_list->token,
 						token_list->type) == ERROR)
 					return (ERROR);
 				token_list = token_list->next;

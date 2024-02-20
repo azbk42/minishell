@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 16:54:34 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/13 18:28:35 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:25:55 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	delete_quote(char *new_str, char *line, int i, int j)
 	new_str[j] = '\0';
 }
 
-bool	init_delete_quote(t_token **lst_token, char *line)
+bool	init_delete_quote(t_token *lst_token, char *line)
 {
 	char	*new_str;
 	int		i;
@@ -46,6 +46,6 @@ bool	init_delete_quote(t_token **lst_token, char *line)
 		return (ERROR);
 	delete_quote(new_str, line, i, j);
 	free(line);
-	(*lst_token)->token = new_str;
+	lst_token->token = new_str;
 	return (OK);
 }

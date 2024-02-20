@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:36:51 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 11:02:07 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:26:08 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char *init_no_quote_with_dollar(t_token **token ,const char *line, char *str_exp
 /* -------------------------------------------------------------------------- */
 
 void	delete_quote(char *new_str, char *line, int i, int j);
-bool	init_delete_quote(t_token **lst_token, char *line);
+bool	init_delete_quote(t_token *lst_token, char *line);
 
 /* -------------------------------------------------------------------------- */
 /*                                  UTILS                                     */
