@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 16:32:21 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:05:19 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_token	*create_token(char *word, t_e_token type)
 	token = (t_token *)malloc(sizeof(t_token));
 	token->token = ft_strdup(word);
 	token->type = type;
+	token->jump = 0;
 	token->next = NULL;
 	return (token);
 }
@@ -43,13 +44,13 @@ void	init_data(t_data *data)
 	data->cmd_list->args = NULL;
 	data->cmd_list->next = NULL;
 	// Créer les nœuds t_token et les lier pour la première commande
-	token0 = create_token("  salut\"bonjour\" ", ARG);
-	//token1 = create_token("   's'\"'k'\"     ", ARG);
+	token0 = create_token("  'Salut'\"$LS\"$LS ", ARG);
+	token1 = create_token("   $USER     ", ARG);
 	// t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'",
 	//		FILE_OUT);
 	// t_token *token3 = create_token("txt.txt", WRITE_FILE);
 	// Lier les nœuds t_token pour la première commande
-	//token0->next = token1;
+	token0->next = token1;
 	// token1->next = token2;
 	// token2->next = token3;
 	// Attribuer le premier nœud t_token à data->cmd->token_list

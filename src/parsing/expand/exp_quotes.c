@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:36:33 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 14:50:37 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:37:42 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *expand_dbl_quotes(const char *line, char *str_expand, int *i)
 	}
 	return (str_expand);
 }
-char	*expand_no_quote(t_token **tok, const char *line, char *str_expand, int *i)
+char	*expand_no_quote(t_token *tok, const char *line, char *str_expand, int *i)
 {
 	while (line && line[*i] && line[*i] != '"' && line[*i] != '\'')
 	{
@@ -70,4 +70,3 @@ char	*expand_no_quote(t_token **tok, const char *line, char *str_expand, int *i)
 	}
 	return (str_expand);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azbk <azbk@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:01:40 by azbreak           #+#    #+#             */
-/*   Updated: 2024/02/09 16:20:22 by azbk             ###   ########.fr       */
+/*   Updated: 2024/02/20 16:58:43 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	str = print_tab(end, start, s1, len);
 	return (str);
 }
-// int main()
-// {
-// 	char *s;
-// 	s = ft_strtrim("oxsalutoxxoxo", "ox");
-// 	printf("%s| \n", s);
-// 	free(s);
-
-// }

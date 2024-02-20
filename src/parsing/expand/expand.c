@@ -6,13 +6,13 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 16:31:23 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:12:11 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static char	*exp_according_quotes(t_token **tok, const char *line,
+static char	*exp_according_quotes(t_token *tok, const char *line,
 		char *str_expand, int *i, char quote)
 {
 	if (quote == '\'')
@@ -27,8 +27,8 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 		int *i)
 {
 	char	quote;
+	int		jump;
 
-	printf("token before = %s\n", line);
 	quote = 0;
 	while (line[*i])
 	{
@@ -44,20 +44,25 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 		}
 		else
 		{
-			str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
+			str_expand = exp_according_quotes(lst_token, line, str_expand, i,
 					quote);
-			int jump = lst_token->jump;
+			jump = lst_token->jump;
 			while (jump > 0)
 			{
-				
-				lst_token = lst_token->next;
-				str_expand = lst_token->token;
-				jump--;
+				if (lst_token->next != NULL)
+				{
+					lst_token = lst_token->next;
+					str_expand = lst_token->token;
+					jump--;
+				}
+				else
+				{
+					break ;
+				}
 			}
 		}
-		printf("str_expand = %s\n", str_expand);
 	}
-	// free(line);
+	
 	lst_token->token = str_expand;
 }
 
@@ -69,8 +74,6 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 
 	i = 0;
 	line_duplicate = ft_strdup(line);
-	if (line)
-		free(line);
 	line = ft_strtrim(line_duplicate, " ");
 	if (line_duplicate)
 		free(line_duplicate);
@@ -86,12 +89,9 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 	}
 	else
 	{
-		str_expand = malloc(1);
-		if (str_expand == NULL)
-			return (ERROR);
-		str_expand[0] = '\0';
 		start_expand(lst_token, line, str_expand, &i);
 	}
+	free(line);
 	return (OK);
 }
 
