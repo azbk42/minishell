@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 19:14:17 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:16:51 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_token	*alloc_token(const char *str, char **tab)
 	if (!new)
 		return (ft_free_array(tab), NULL);
 	new->type = ARG;
+	printf("STR = %s\n", str);
 	new->token = ft_strdup(str);
 	new->jump = 0;
     new->next = NULL;
@@ -94,5 +95,7 @@ char	*init_no_quote_with_dollar(t_token *token, const char *line,
 	if (add_split_to_token(token, tab, 1) == ERROR)
 		return (NULL);
 	ft_free_array(tab);
-	return (NULL);
+	new_str = malloc(1);
+	new_str[0]='\0';
+	return (new_str);
 }

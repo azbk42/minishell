@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:02:24 by azbreak           #+#    #+#             */
-/*   Updated: 2023/11/07 11:37:44 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:34:00 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	len = 0;
+	if (!s)
+		return (NULL);
 	while (s[len])
 		len++;
 	tab = malloc(len * sizeof(char) + 1);

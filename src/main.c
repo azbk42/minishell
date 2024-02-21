@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 19:05:19 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:23:49 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	init_data(t_data *data)
 	data->cmd_list->args = NULL;
 	data->cmd_list->next = NULL;
 	// Créer les nœuds t_token et les lier pour la première commande
-	token0 = create_token("  'Salut'\"$LS\"$LS ", ARG);
-	token1 = create_token("   $USER     ", ARG);
+	token0 = create_token("  'Salut'$LS\"$LS\"YO ", ARG);
+	token1 = create_token("   $USER\"$LS\"'YO'     ", ARG);
 	// t_token *token2 = create_token("\"Bonjour'$USER'\"ELOUAN'\"YES'",
 	//		FILE_OUT);
 	// t_token *token3 = create_token("txt.txt", WRITE_FILE);

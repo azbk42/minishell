@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 16:54:34 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 16:25:55 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:34:36 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ bool	init_delete_quote(t_token *lst_token, char *line)
 	if (!new_str)
 		return (ERROR);
 	delete_quote(new_str, line, i, j);
-	free(line);
 	lst_token->token = new_str;
 	return (OK);
 }

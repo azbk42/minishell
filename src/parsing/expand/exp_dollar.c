@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:13:16 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 11:14:12 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:09:06 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char *init_exp_with_dollar(const char *line, char *str_expand, int *i)
 	str_exp = exp_with_dollar(line, i);
 	str_join = ft_strjoin(str_expand, str_exp);
 	free(str_exp);
-	free(str_expand);
 	return (str_join);
 }
 
@@ -106,8 +105,6 @@ char *exp_without_dollar(const char *line, char *str_expand, int *i)
 	str = malloc(sizeof(char) * ((*i) - j + 1));
 	if (str == NULL)
 	{
-		if (str_expand)
-			free(str_expand);
 		return (MALLOC_ERROR);
 	}
 	str = ft_strncpy(str, &line[j], (*i) - j);
@@ -129,13 +126,10 @@ char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i)
 	str = malloc(sizeof(char) * ((*i) - j + 1));
 	if (str == NULL)
 	{
-		if (str_expand)
-			free(str_expand);
 		return (MALLOC_ERROR);
 	}
 	str = ft_strncpy(str, &line[j], (*i) - j);
 	new_str = ft_strjoin(str_expand, str);
 	free(str);
-	free(str_expand);
 	return (new_str);
 }

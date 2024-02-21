@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:43:47 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/20 18:05:53 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 12:18:15 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	ft_free_tokens(t_token *tokens)
 	{
 		next = cur->next;
 		if (cur->token)
+		{
 			free(cur->token);
+			cur->token = NULL;
+		}
+			
 		if (cur)
 			free(cur);
 		cur = next;
