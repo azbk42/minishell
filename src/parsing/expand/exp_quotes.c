@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:36:33 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 15:32:13 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:39:51 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ char	*expand_smpl_quotes(const char *line, char *str_expand, int *i)
 		return (MALLOC_ERROR);
 	}
 	str = ft_strncpy(str, &line[j], (*i) - j);
- 	new_str = ft_strjoin(str_expand, str);
+	new_str = ft_strjoin(str_expand, str);
 	free(str);
 	return (new_str);
 }
 
-char *expand_dbl_quotes(const char *line, char *str_expand, int *i)
+char	*expand_dbl_quotes(const char *line, char *str_expand, int *i)
 {
-	char *new_str;
+	char	*new_str;
 
 	new_str = NULL;
 	while (line && line[*i] && line[*i] != '"')
@@ -53,7 +53,8 @@ char *expand_dbl_quotes(const char *line, char *str_expand, int *i)
 	}
 	return (new_str);
 }
-char	*expand_no_quote(t_token *tok, const char *line, char *str_expand, int *i)
+char	*expand_no_quote(t_token *tok, const char *line, char *str_expand,
+		int *i)
 {
 	while (line && line[*i] && line[*i] != '"' && line[*i] != '\'')
 	{

@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 15:14:24 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:56:51 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_data(t_data *data)
 	data->cmd_list->args = NULL;
 	data->cmd_list->next = NULL;
 	token0 = create_token("  'LOL'$LS\"$USER\" ", ARG);
-	token1 = create_token("   $USER\"$LS\"$LS     ", ARG);
+	token1 = create_token("   $USER\"$LS\"$KK     ", ARG);
 	token0->next = token1;
 	data->cmd_list->token_list = token0;
 }
