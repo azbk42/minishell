@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 18:09:42 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:33:43 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static char	*exp_according_quotes(t_token *tok, const char *line,
 		new_str = expand_no_quote(tok, line, str_expand, i);
 	return (new_str);
 }
-
-
 
 static void	start_expand(t_token *lst_token, char *line, int *i)
 {
@@ -81,10 +79,10 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 	return (OK);
 }
 
-static bool ft_only_space(char *line)
+static bool	ft_only_space(char *line)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (line[i])
 	{

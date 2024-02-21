@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 15:56:36 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:13:54 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static size_t	ft_len_tab(char **tab)
 	return (i);
 }
 
-static char	*handle_join_and_tab_conditions(char *str_join, char **tab, char *new_str)
+static char	*handle_join_and_tab_conditions(char *str_join, char **tab,
+		char *new_str)
 {
 	if (!str_join)
 	{
@@ -71,13 +72,12 @@ static char	*handle_join_and_tab_conditions(char *str_join, char **tab, char *ne
 	}
 	if (!tab[1])
 	{
-		free(new_str); 
+		free(new_str);
 		ft_free_array(tab);
 		return (str_join);
 	}
 	return (NULL);
 }
-
 
 char	*init_no_quote_with_dollar(t_token *token, const char *line,
 		char *str_expand, int *i)
@@ -99,7 +99,7 @@ char	*init_no_quote_with_dollar(t_token *token, const char *line,
 	free(str_expand);
 	result = handle_join_and_tab_conditions(str_join, tab, new_str);
 	if (result != NULL)
-		return result;
+		return (result);
 	token->token = str_join;
 	add_split_to_token(token, tab, 1);
 	ft_free_array(tab);
