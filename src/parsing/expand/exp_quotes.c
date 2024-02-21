@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:36:33 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 13:24:29 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:32:13 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*expand_smpl_quotes(const char *line, char *str_expand, int *i)
 	while (line && line[*i] && line[*i] != '\'')
 		(*i)++;
 	str = malloc(sizeof(char) * ((*i) - j + 1));
-	if (str == NULL)
+	if (!str)
 	{
 		return (MALLOC_ERROR);
 	}

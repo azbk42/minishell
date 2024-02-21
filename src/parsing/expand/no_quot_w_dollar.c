@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 13:16:51 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:11:25 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,24 @@ char	*init_no_quote_with_dollar(t_token *token, const char *line,
 	token->jump = ft_len_tab(tab) - 1;
 	printf("len tab = %lu\n", (ft_len_tab(tab) - 1));
 	free(new_str);
+	new_str = malloc(1);
+	new_str[0]='\0';
 	str_join = ft_strjoin(str_expand, tab[0]);
+	free(str_expand);
 	if (!str_join)
 	{
-		if (str_expand)
-			free(str_expand);
 		ft_free_array(tab);
-		return (ft_free_array(tab), NULL);
+		return (new_str);
 	}
 	if (!tab[1])
 	{
+		free(new_str);
 		ft_free_array(tab);
 		return (str_join);
 	}
-	free(token->token);
 	token->token = str_join;
 	if (add_split_to_token(token, tab, 1) == ERROR)
 		return (NULL);
 	ft_free_array(tab);
-	new_str = malloc(1);
-	new_str[0]='\0';
 	return (new_str);
 }

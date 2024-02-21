@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 13:46:55 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:39:02 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*exp_according_quotes(t_token *tok, const char *line,
 		char *str_expand, int *i, char quote)
 {
-	char *new_str;
-	
+	char	*new_str;
+
 	new_str = NULL;
 	if (quote == '\'')
 		new_str = expand_smpl_quotes(line, str_expand, i);
@@ -24,94 +24,88 @@ static char	*exp_according_quotes(t_token *tok, const char *line,
 		new_str = expand_dbl_quotes(line, str_expand, i);
 	else if (quote == 0)
 		new_str = expand_no_quote(tok, line, str_expand, i);
-	if (str_expand)
-	{
-		free(str_expand);
-		str_expand = NULL;
-	}
 	return (new_str);
 }
 
-
-static void	start_expand(t_token *lst_token, char *line, char *str_expand,
-		int *i)
+static void	handle_quotes(char *line, int *i, char *quote)
 {
-	char	quote;
-	int		jump;
+	if ((line[*i] == '"' || line[*i] == '\'') && *quote == 0)
+	{
+		*quote = line[*i];
+		(*i)++;
+	}
+	if (line[*i] == *quote && *quote != 0)
+	{
+		*quote = 0;
+		(*i)++;
+	}
+}
 
+static t_token	*jump_function(t_token *lst_token)
+{
+	int	jump;
+
+	jump = lst_token->jump;
+	while (jump > 0)
+	{
+		if (lst_token->next != NULL)
+		{
+			lst_token = lst_token->next;
+		}
+		jump--;
+	}
+	return (lst_token);
+}
+
+static void	start_expand(t_token *lst_token, char *line, int *i)
+{
+	char	*str_expand;
+	char	quote;
+
+	str_expand = NULL;
 	quote = 0;
 	while (line[*i])
 	{
-		if ((line[*i] == '"' || line[*i] == '\'') && quote == 0)
-		{
-			quote = line[*i];
-			(*i)++;
-		}
-		if (line[*i] == quote && quote != 0)
-		{
-			quote = 0;
-			(*i)++;
-		}
+		handle_quotes(line, i, &quote);
 		str_expand = exp_according_quotes(lst_token, line, str_expand, i,
 				quote);
-		jump = lst_token->jump;
-		printf("str_expand = %s\n", str_expand);
-		while (jump > 0)
+		lst_token = jump_function(lst_token);
+		if (str_expand[0] == '\0')
 		{
-			if (lst_token->next != NULL)
-			{
-				lst_token = lst_token->next;
-				if (str_expand)
-				{
-					free(str_expand);
-					str_expand = NULL;
-				}
-				str_expand = lst_token->token;
-				jump--;
-			}
-			else
-			{
-				break ;
-			}
+			free(str_expand);
+			return ;
 		}
+		if (lst_token->jump > 0)
+			str_expand = lst_token->token;
 	}
-	if (str_expand)
-	{
-		if (lst_token->token)
-			free(lst_token->token);
-		lst_token->token = str_expand;
-	}
+	lst_token->token = str_expand;
 }
 
 static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 {
 	int		i;
-	char	*str_expand;
 	char	*line_duplicate;
 
 	i = 0;
-	str_expand = NULL;
 	if (!line)
 		return (ERROR);
-	line_duplicate = ft_strdup(line);
-	line = ft_strtrim(line_duplicate, " ");
-	if (line_duplicate)
-		free(line_duplicate);
-	if (!line)
+	line_duplicate = ft_strtrim(line, " ");
+	if (!line_duplicate)
 		return (ERROR);
+	free(lst_token->token);
 	if (type == LIMITOR)
 	{
-		if (init_delete_quote(lst_token, line) == ERROR)
+		if (init_delete_quote(lst_token, line_duplicate) == ERROR)
 		{
-			free(line);
+			free(line_duplicate);
 			return (ERROR);
 		}
 	}
 	else
 	{
-		start_expand(lst_token, line, str_expand, &i);
+		start_expand(lst_token, line_duplicate, &i);
 	}
-	free(line);
+	free(line_duplicate);
 	return (OK);
 }
 
