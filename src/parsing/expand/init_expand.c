@@ -6,26 +6,11 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 18:33:43 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:37 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static char	*exp_according_quotes(t_token *tok, const char *line,
-		char *str_expand, int *i, char quote)
-{
-	char	*new_str;
-
-	new_str = NULL;
-	if (quote == '\'')
-		new_str = expand_smpl_quotes(line, str_expand, i);
-	else if (quote == '"')
-		new_str = expand_dbl_quotes(line, str_expand, i);
-	else if (quote == 0)
-		new_str = expand_no_quote(tok, line, str_expand, i);
-	return (new_str);
-}
 
 static void	start_expand(t_token *lst_token, char *line, int *i)
 {
@@ -37,8 +22,12 @@ static void	start_expand(t_token *lst_token, char *line, int *i)
 	while (line[*i])
 	{
 		handle_quotes(line, i, &quote);
-		str_expand = exp_according_quotes(lst_token, line, str_expand, i,
-				quote);
+		if (quote == 0)
+			str_expand = expand_no_quote(lst_token, line, str_expand, i);
+		else if (quote == '\'')
+			str_expand	= expand_smpl_quotes(line, str_expand, i);
+		else if (quote == '"')
+			str_expand = expand_dbl_quotes(line, str_expand, i);
 		lst_token = jump_function(lst_token);
 		if (str_expand[0] == '\0')
 		{
