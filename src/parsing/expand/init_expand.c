@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 16:00:23 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:09:42 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,20 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 	return (OK);
 }
 
+static bool ft_only_space(char *line)
+{
+	int i;
+	
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ')
+			return (ERROR);
+		i++;
+	}
+	return (OK);
+}
+
 bool	expand_all_tokens(t_data *data)
 {
 	t_cmd_line	*command;
@@ -94,7 +108,12 @@ bool	expand_all_tokens(t_data *data)
 			token_list = command->token_list;
 			while (token_list)
 			{
-				if (expand_token(token_list, token_list->token,
+				if (ft_only_space(token_list->token))
+				{
+					free(token_list->token);
+					token_list->token = ft_strdup("\0");
+				}
+				else if (expand_token(token_list, token_list->token,
 						token_list->type) == ERROR)
 					return (ERROR);
 				token_list = token_list->next;
