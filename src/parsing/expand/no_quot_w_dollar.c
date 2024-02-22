@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 14:19:24 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:57:19 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static t_token	*alloc_token(const char *str, char **tab)
 		return (ft_free_array(tab), NULL);
 	new->type = ARG;
 	new->token = ft_strdup(str);
+	new->jump = 0;
     new->next = NULL;
 	if (new->token == NULL)
 	{

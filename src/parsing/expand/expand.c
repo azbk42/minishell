@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 14:23:38 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:56:56 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,34 @@ static char	*exp_according_quotes(t_token **tok, const char *line,
 		str_expand = expand_no_quote(tok, line, str_expand, i);
 	return (str_expand);
 }
+
+static void handle_quotes(char *line, int *i, char *quote) 
+{
+    if ((line[*i] == '"' || line[*i] == '\'') && *quote == 0) 
+	{
+        *quote = line[*i];
+        (*i)++;
+    } else if (line[*i] == *quote && *quote != 0) 
+	{
+        *quote = 0;
+        (*i)++;
+    }
+}
+
 static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 		int *i)
 {
 	char	quote;
+	int jump;
 
-	printf("token before = %s\n", line);
+	jump = 0;
 	quote = 0;
 	while (line[*i])
 	{
-		if ((line[*i] == '"' || line[*i] == '\'') && quote == 0)
-		{
-			quote = line[*i];
-			(*i)++;
-		}
-		if (line[*i] == quote && quote != 0)
-		{
-			quote = 0;
-			(*i)++;
-		}
-		else
-		{
+		handle_quotes(line, i, &quote);
 			str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
 					quote);
-			int jump = lst_token->jump;
+			jump = lst_token->jump;
 			while (jump > 0)
 			{
 				
@@ -54,7 +58,6 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 				str_expand = lst_token->token;
 				jump--;
 			}
-		}
 	}
 	lst_token->token = str_expand;
 }
@@ -66,9 +69,8 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 	char	*line_duplicate;
 
 	i = 0;
+	printf("token = %s\n",lst_token->token);
 	line_duplicate = ft_strdup(line);
-	if (line)
-		free(line);
 	line = ft_strtrim(line_duplicate, " ");
 	if (line_duplicate)
 		free(line_duplicate);
@@ -76,7 +78,7 @@ static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 	if (line[0] == '\0')
 		return (OK);
 	if (!line)
-		return (ERROR);
+		return (ft_strdup("\0"));
 	if (type == LIMITOR)
 	{
 		if (init_delete_quote(lst_token, line) == ERROR)
