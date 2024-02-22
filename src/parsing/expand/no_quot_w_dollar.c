@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 14:57:19 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:10:32 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ char	*init_no_quote_with_dollar(t_token **token, const char *line,
 	if (tab == NULL)
 		return (MALLOC_ERROR);
 	str_join = ft_strjoin(str_expand, tab[0]);
+	if (!tab[1])
+	{
+		if (str_expand)
+			free(str_expand);
+		ft_free_array(tab);
+		return (str_join);
+	}
 	if (!str_join)
 	{
 		if (str_expand)

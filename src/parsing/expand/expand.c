@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 14:56:56 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:07:05 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 	while (line[*i])
 	{
 		handle_quotes(line, i, &quote);
-			str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
-					quote);
-			jump = lst_token->jump;
-			while (jump > 0)
-			{
-				
-				lst_token = lst_token->next;
-				str_expand = lst_token->token;
-				jump--;
-			}
+		str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
+				quote);
+		jump = lst_token->jump;
+		while (jump > 0)
+		{
+			
+			lst_token = lst_token->next;
+			str_expand = lst_token->token;
+			jump--;
+		}
 	}
 	lst_token->token = str_expand;
 }
@@ -100,7 +100,7 @@ static bool	ft_only_space(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] != ' ')
 			return (ERROR);
