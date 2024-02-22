@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:13:16 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 11:14:12 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:51:14 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char *exp_without_dollar(const char *line, char *str_expand, int *i)
 	str = ft_strncpy(str, &line[j], (*i) - j);
 	new_str = ft_strjoin(str_expand, str);
 	free(str);
+	free(str_expand);
 	return (new_str);
 }
 char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i)

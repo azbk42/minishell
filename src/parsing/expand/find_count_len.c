@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:11:07 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/12 17:04:35 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:33:09 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char *get_value_env(const char *variable)
 		{
 			new_str = ft_strdup(cur->value);
 			if (new_str == NULL)
-				return (MALLOC_ERROR);
+				return (free(var_add_equal), MALLOC_ERROR);
 		}
 		cur = cur->next;
 	}
