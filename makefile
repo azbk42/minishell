@@ -6,7 +6,7 @@
 #    By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/26 16:12:37 by azbk              #+#    #+#              #
-#    Updated: 2024/02/21 16:01:29 by emauduit         ###   ########.fr        #
+#    Updated: 2024/02/14 11:02:22 by emauduit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,7 @@ SRC := main.c \
 		\
 		parsing/expand/delete_quotes.c \
 		parsing/expand/exp_dollar.c \
-		parsing/expand/init_expand.c \
-		parsing/expand/tools_init_exp.c \
+		parsing/expand/expand.c \
 		parsing/expand/find_count_len.c \
 		parsing/expand/exp_quotes.c \
 		parsing/expand/singletone.c \

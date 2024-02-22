@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:36:51 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 16:00:18 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:27:15 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,21 @@ bool	is_in_env(const char *line, const char **env);
 /* -------------------------------------------------------------------------- */
 bool	ft_init_lst_env(const char **envp);
 bool	ft_lst_env(const char *line, t_env **env);
+t_env **dup_secret_env(t_env **env);
 
 /* -------------------------------------------------------------------------- */
 /*                                    EXPAND                                  */
 /* -------------------------------------------------------------------------- */
 char	*expand_smpl_quotes(const char *line, char *str_expand, int *i);
-char	*expand_no_quote(t_token *tok, const char *line, char *str_expand, int *i);
+char	*expand_no_quote(t_token **tok, const char *line, char *str_expand, int *i);
 char	*expand_dbl_quotes(const char *line, char *str_expand, int *i);
 char	*init_exp_with_dollar(const char *line, char *str_expand,
 			int *i);
-
-void	handle_quotes(char *line, int *i, char *quote);
-t_token	*jump_function(t_token *lst_token);
-
 char	*exp_without_dollar(const char *line, char *str_expand, int *i);
 char	*exp_with_dollar(const char *line, int *i);
 char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i);
-char *init_no_quote_with_dollar(t_token *token ,const char *line, char *str_expand, int *i);
-char *init_no_quote_with_dollar(t_token *token ,const char *line, char *str_expand, int *i);
+char *init_no_quote_with_dollar(t_token **token ,const char *line, char *str_expand, int *i);
+char *init_no_quote_with_dollar(t_token **token ,const char *line, char *str_expand, int *i);
 
 
 /* -------------------------------------------------------------------------- */

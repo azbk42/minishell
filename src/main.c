@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 18:16:12 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:30:39 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,18 @@ void	init_data(t_data *data)
 	t_token	*token0;
 	t_token	*token1;
 
+	// Allouer de la mémoire pour data->cmd
 	data->cmd_list = malloc(sizeof(t_cmd_line));
 	// Initialiser data->cmd
 	data->cmd_list->cmd = NULL;
 	data->cmd_list->token_list = NULL;
 	data->cmd_list->args = NULL;
 	data->cmd_list->next = NULL;
-	token0 = create_token("  Salut$KK$LS ", ARG);
-	token1 = create_token("   $USER\"$LS\"$KK     ", ARG);
+	// Créer les nœuds t_token et les lier pour la première commande
+	token0 = create_token("  salut$KK$LOL$KK\"bonjour\" ", ARG);
+	token1 = create_token("      $LOL$KK'xd'$KK  ", ARG);
 	token0->next = token1;
+	
 	data->cmd_list->token_list = token0;
 }
 
@@ -54,6 +57,7 @@ int	main(int ac, char **av, char **envp)
 	t_token		*current_token;
 	t_cmd_line	*command;
 	t_env		**env;
+	t_env **secret;
 	int			i;
 
 	if (ac == 0 || !av)
@@ -62,11 +66,15 @@ int	main(int ac, char **av, char **envp)
 	data->cmd_list = NULL;
 	data->t = NULL;
 	ft_init_lst_env((const char **)envp);
+	env = ft_singletone_env();
+	secret = dup_secret_env(env);
 	init_data(data);
 	if (expand_all_tokens(data) == ERROR)
 		ft_free_data(data);
-	env = ft_singletone_env();
-	ft_free_env_list(env);
+	
+	ft_free_env_singletone(env);
+	ft_free_secret_env(secret);	
+
 	command = data->cmd_list;
 	i = 0;
 	while (command)

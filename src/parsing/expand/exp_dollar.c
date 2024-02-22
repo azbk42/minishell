@@ -6,15 +6,15 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:13:16 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 15:39:48 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:14:12 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*one_dollar(int *i)
+char *one_dollar(int *i)
 {
-	char	*str;
+	char *str;
 
 	str = malloc(2);
 	if (str == NULL)
@@ -25,11 +25,41 @@ char	*one_dollar(int *i)
 	return (str);
 }
 
-char	*init_exp_with_dollar(const char *line, char *str_expand, int *i)
-{
-	char	*str_exp;
-	char	*str_join;
+// char	*new_token_env(t_token **stc, char **split, int i)
+// {
+// 	t_token	*next;
+// 	t_token	*new;
 
+// 	if ((*stc))
+// 		next = (*stc)->next;
+// 	while (split[i])
+// 	{
+// 		new = malloc(sizeof(t_token));
+// 		if (new == NULL)
+// 			return (free_split_ret_str(split, NULL));
+// 		init_token(new);
+// 		new->type = ARG;
+// 		new->str = ft_strdup(split[i]);
+// 		if (new->str == NULL)
+// 			if (new)
+// 				return (free_split_token(split, new));
+// 		if ((*stc))
+// 			new->next = next;
+// 		(*stc)->next = new;
+// 		(*stc) = (*stc)->next;
+// 		i++;
+// 	}
+// 	free_split(split);
+// 	return (new->str);
+// }
+
+
+
+char *init_exp_with_dollar(const char *line, char *str_expand, int *i)
+{
+	char *str_exp;
+	char *str_join;
+	
 	str_exp = exp_with_dollar(line, i);
 	str_join = ft_strjoin(str_expand, str_exp);
 	free(str_exp);
@@ -37,11 +67,11 @@ char	*init_exp_with_dollar(const char *line, char *str_expand, int *i)
 	return (str_join);
 }
 
-char	*exp_with_dollar(const char *line, int *i)
+char *exp_with_dollar(const char *line, int *i)
 {
-	char	*new_str;
-	char	*variable;
-	size_t	len_var;
+	char *new_str;
+	char *variable;
+	size_t len_var;
 
 	variable = NULL;
 	new_str = NULL;
@@ -57,17 +87,17 @@ char	*exp_with_dollar(const char *line, int *i)
 	variable = malloc(sizeof(char) * (len_var + 1));
 	if (variable == NULL)
 		return (MALLOC_ERROR);
-	variable = ft_strncpy(variable, &line[*i + 1], len_var);
+	variable = ft_strncpy(variable, &line[*i+1], len_var);
 	(*i) += len_var + 1;
 	new_str = get_value_env(variable);
 	free(variable);
 	return (new_str);
 }
-char	*exp_without_dollar(const char *line, char *str_expand, int *i)
+char *exp_without_dollar(const char *line, char *str_expand, int *i)
 {
-	char	*str;
-	char	*new_str;
-	int		j;
+	char *str;
+	char *new_str;
+	int j;
 
 	j = *i;
 	new_str = NULL;
@@ -76,11 +106,12 @@ char	*exp_without_dollar(const char *line, char *str_expand, int *i)
 	str = malloc(sizeof(char) * ((*i) - j + 1));
 	if (str == NULL)
 	{
+		if (str_expand)
+			free(str_expand);
 		return (MALLOC_ERROR);
 	}
 	str = ft_strncpy(str, &line[j], (*i) - j);
 	new_str = ft_strjoin(str_expand, str);
-	free(str_expand);
 	free(str);
 	return (new_str);
 }
@@ -98,11 +129,13 @@ char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i)
 	str = malloc(sizeof(char) * ((*i) - j + 1));
 	if (str == NULL)
 	{
+		if (str_expand)
+			free(str_expand);
 		return (MALLOC_ERROR);
 	}
 	str = ft_strncpy(str, &line[j], (*i) - j);
 	new_str = ft_strjoin(str_expand, str);
-	free(str_expand);
 	free(str);
+	free(str_expand);
 	return (new_str);
 }

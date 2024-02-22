@@ -1,41 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_expand.c                                      :+:      :+:    :+:   */
+/*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/21 18:38:37 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:23:38 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	start_expand(t_token *lst_token, char *line, int *i)
+static char	*exp_according_quotes(t_token **tok, const char *line,
+		char *str_expand, int *i, char quote)
 {
-	char	*str_expand;
+	if (quote == '\'')
+		str_expand = expand_smpl_quotes(line, str_expand, i);
+	else if (quote == '"')
+		str_expand = expand_dbl_quotes(line, str_expand, i);
+	else if (quote == 0)
+		str_expand = expand_no_quote(tok, line, str_expand, i);
+	return (str_expand);
+}
+static void	start_expand(t_token *lst_token, char *line, char *str_expand,
+		int *i)
+{
 	char	quote;
 
-	str_expand = NULL;
+	printf("token before = %s\n", line);
 	quote = 0;
 	while (line[*i])
 	{
-		handle_quotes(line, i, &quote);
-		if (quote == 0)
-			str_expand = expand_no_quote(lst_token, line, str_expand, i);
-		else if (quote == '\'')
-			str_expand	= expand_smpl_quotes(line, str_expand, i);
-		else if (quote == '"')
-			str_expand = expand_dbl_quotes(line, str_expand, i);
-		lst_token = jump_function(lst_token);
-		if (str_expand[0] == '\0')
+		if ((line[*i] == '"' || line[*i] == '\'') && quote == 0)
 		{
-			free(str_expand);
-			return ;
+			quote = line[*i];
+			(*i)++;
 		}
-		if (lst_token->jump > 0)
-			str_expand = lst_token->token;
+		if (line[*i] == quote && quote != 0)
+		{
+			quote = 0;
+			(*i)++;
+		}
+		else
+		{
+			str_expand = exp_according_quotes(&lst_token, line, str_expand, i,
+					quote);
+			int jump = lst_token->jump;
+			while (jump > 0)
+			{
+				
+				lst_token = lst_token->next;
+				str_expand = lst_token->token;
+				jump--;
+			}
+		}
 	}
 	lst_token->token = str_expand;
 }
@@ -43,28 +62,34 @@ static void	start_expand(t_token *lst_token, char *line, int *i)
 static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
 {
 	int		i;
+	char	*str_expand;
 	char	*line_duplicate;
 
 	i = 0;
+	line_duplicate = ft_strdup(line);
+	if (line)
+		free(line);
+	line = ft_strtrim(line_duplicate, " ");
+	if (line_duplicate)
+		free(line_duplicate);
+	str_expand = NULL;
+	if (line[0] == '\0')
+		return (OK);
 	if (!line)
 		return (ERROR);
-	line_duplicate = ft_strtrim(line, " ");
-	if (!line_duplicate)
-		return (ERROR);
-	free(lst_token->token);
 	if (type == LIMITOR)
 	{
-		if (init_delete_quote(lst_token, line_duplicate) == ERROR)
-		{
-			free(line_duplicate);
+		if (init_delete_quote(lst_token, line) == ERROR)
 			return (ERROR);
-		}
 	}
 	else
 	{
-		start_expand(lst_token, line_duplicate, &i);
+		str_expand = malloc(1);
+		if (str_expand == NULL)
+			return (ERROR);
+		str_expand[0] = '\0';
+		start_expand(lst_token, line, str_expand, &i);
 	}
-	free(line_duplicate);
 	return (OK);
 }
 
