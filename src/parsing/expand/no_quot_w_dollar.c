@@ -6,64 +6,60 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 10:53:52 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 16:45:47 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:30:19 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static t_token	*alloc_token(const char *str, char **tab)
+static t_token	*alloc_token(const char *str)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return (ft_free_array(tab), NULL);
+		return (MALLOC_ERROR);
 	new->type = ARG;
 	new->token = ft_strdup(str);
-	new->jump = 0;
-    new->next = NULL;
+	new->next = NULL;
 	if (new->token == NULL)
 	{
-		ft_free_array(tab);
-		if (new)
-		{
-			free(new->token);
-		}
-		return (NULL);
+		return (MALLOC_ERROR);
 	}
 	return (new);
 }
 
-static bool	add_split_to_token(t_token **token, char **tab, int i)
+static char	*add_split_to_token(t_token **token, char **tab, int i)
 {
 	t_token	*new_node;
+	t_token	*next_node;
 
-	
-	t_token *current = *token;
+	next_node = (*token)->next;
 	while (tab[i])
 	{
-		new_node = alloc_token(tab[i], tab);
-		if (new_node == NULL)
-            return (ERROR);
-		new_node->next = current->next;
-        current->next = new_node;
-		current = new_node;
-        i++;
-	}
-	ft_free_array(tab);
-	return (OK);
-}
-static size_t ft_len_tab(char **tab)
-{
-	size_t i;
-
-	i = 0;
-	while(tab[i])
-	{
+		new_node = alloc_token(tab[i]);
+		if (new_node == NULL || new_node->token == NULL)
+		{
+			if (new_node->token)
+				free(new_node->token);
+			ft_free_array(tab);
+			return (MALLOC_ERROR);
+		}
+		if (*token)
+			new_node->next = next_node;
+		(*token)->next = new_node;
+		(*token) = (*token)->next;
 		i++;
 	}
-	return (i);
+	ft_free_array(tab);
+	return (new_node->token);
+}
+
+static char	*free_str_expand(char *str_expand)
+{
+	if (str_expand)
+		free(str_expand);
+	return (MALLOC_ERROR);
 }
 
 char	*init_no_quote_with_dollar(t_token **token, const char *line,
@@ -74,33 +70,21 @@ char	*init_no_quote_with_dollar(t_token **token, const char *line,
 	char	**tab;
 
 	new_str = exp_with_dollar(line, i);
-	printf("new str = %s\n", new_str);
 	if (new_str == NULL)
-	{
-		return (str_expand);
-	}
+		return (free_str_expand(str_expand));
 	tab = ft_split(new_str, ' ');
-	printf("len tab = %lu\n", (ft_len_tab(tab) - 1));
 	free(new_str);
 	if (tab == NULL)
-		return (MALLOC_ERROR);
+		return (free_str_expand(str_expand));
 	str_join = ft_strjoin(str_expand, tab[0]);
-	if (!tab[1])
+	if (str_join == NULL)
+		str_join = ft_strdup("\0");
+	free(str_expand);
+	if (!tab[0] || !tab[1])
 	{
-		if (str_expand)
-			free(str_expand);
 		ft_free_array(tab);
 		return (str_join);
 	}
-	if (!str_join)
-	{
-		if (str_expand)
-			free(str_expand);
-		return (ft_free_array(tab), NULL);
-	}
 	(*token)->token = str_join;
-	(*token)->jump = ft_len_tab(tab) - 1;
-	if (add_split_to_token(token, tab, 1) == ERROR)
-		return (NULL);
-	return (NULL);
+	return (add_split_to_token(token, tab, 1));
 }

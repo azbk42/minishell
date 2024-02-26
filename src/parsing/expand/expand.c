@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:32:31 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 16:47:30 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:05:41 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,12 @@ static void	handle_quotes(char *line, int *i, char *quote)
 	}
 }
 
-static void	start_expand(t_token *lst_token, char *line, char *str_expand,
+static bool	start_expand(t_token **lst_token, char *line, char *str_expand,
 		int *i)
 {
 	char	quote;
-	int		jump;
 
-	jump = 0;
 	quote = 0;
-	printf("token dup = %s\n", line);
 	while (line[*i])
 	{
 		handle_quotes(line, i, &quote);
@@ -43,57 +40,35 @@ static void	start_expand(t_token *lst_token, char *line, char *str_expand,
 		else if (quote == '"')
 			str_expand = expand_dbl_quotes(line, str_expand, i);
 		else if (quote == 0)
-			str_expand = expand_no_quote(&lst_token, line, str_expand, i);
-		jump = lst_token->jump;
-		while (jump > 0)
-		{
-			lst_token = lst_token->next;
-			str_expand = lst_token->token;
-			jump--;
-		}
-	}
-	free(line);
-	lst_token->token = str_expand;
-}
-
-static bool	expand_token(t_token *lst_token, char *line, t_e_token type)
-{
-	int		i;
-	char	*str_expand;
-	char	*line_duplicate;
-
-	i = 0;
-	printf("token = %s\n", lst_token->token);
-	line_duplicate = ft_strdup(line);
-	free(line);
-	str_expand = NULL;
-	if (line_duplicate[0] == '\0')
-		return (OK);
-	if (!line_duplicate)
-		return (ft_strdup("\0"));
-	if (type == LIMITOR)
-	{
-		if (init_delete_quote(lst_token, line_duplicate) == ERROR)
+			str_expand = expand_no_quote(lst_token, line, str_expand, i);
+		if (str_expand == NULL)
 			return (ERROR);
 	}
-	else
-	{
-		start_expand(lst_token, line_duplicate, str_expand, &i);
-	}
+	free(line);
+	(*lst_token)->token = str_expand;
 	return (OK);
 }
 
-static bool	ft_only_space(char *line)
+static bool	expand_token(t_token **lst_token, char *line, t_e_token type)
 {
-	int	i;
+	int		i;
+	char	*str_expand;
+	char	*new_str;
 
 	i = 0;
-	while (line && line[i])
+	str_expand = NULL;
+	if (type == LIMITOR)
 	{
-		if (line[i] != ' ')
+		if (init_delete_quote(*lst_token, line) == ERROR)
 			return (ERROR);
-		i++;
 	}
+	new_str = ft_strdup(line);
+	if (new_str == NULL)
+		return (ERROR);
+	free(line);
+	(*lst_token)->token = NULL;
+	if (start_expand(lst_token, new_str, str_expand, &i) == ERROR)
+		return (ERROR);
 	return (OK);
 }
 
@@ -110,12 +85,7 @@ bool	expand_all_tokens(t_data *data)
 			token_list = command->token_list;
 			while (token_list)
 			{
-				if (ft_only_space(token_list->token))
-				{
-					free(token_list->token);
-					token_list->token = ft_strdup("\0");
-				}
-				else if (expand_token(token_list, token_list->token,
+				if (expand_token(&token_list, token_list->token,
 						token_list->type) == ERROR)
 					return (ERROR);
 				token_list = token_list->next;
@@ -123,5 +93,7 @@ bool	expand_all_tokens(t_data *data)
 			command = command->next;
 		}
 	}
+	if (prepare_execution(data) == ERROR)
+		return (ERROR);
 	return (OK);
 }

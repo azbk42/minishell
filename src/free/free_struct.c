@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:43:47 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/14 11:11:37 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:18:33 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	ft_free_tokens(t_token *tokens)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		if (cur->token)
-			free(cur->token);
-		if (cur)
-			free(cur);
+		free(cur->token);
+		free(cur);
 		cur = next;
 	}
 }
@@ -47,10 +45,13 @@ void	ft_free_array(char **tab)
 
 void	ft_free_cmd(t_cmd_line *cmd)
 {
-	free(cmd->cmd);
-	ft_free_tokens(cmd->token_list);
-	ft_free_array(cmd->args);
-	free(cmd);
+	if (cmd)
+	{
+		free(cmd->cmd);
+		ft_free_tokens(cmd->token_list);
+		ft_free_array(cmd->args);
+		free(cmd);
+	}
 }
 
 void	ft_free_commands(t_cmd_line *command)
@@ -73,6 +74,6 @@ void	ft_free_data(t_data *data)
 	{
 		if (data->cmd_list)
 			ft_free_commands(data->cmd_list);
+		free(data);
 	}
-	free(data);
 }

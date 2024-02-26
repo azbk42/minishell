@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:36:51 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 14:27:15 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:22:18 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*init_exp_with_dollar(const char *line, char *str_expand,
 char	*exp_without_dollar(const char *line, char *str_expand, int *i);
 char	*exp_with_dollar(const char *line, int *i);
 char	*exp_no_quote_no_dol(const char *line, char *str_expand, int *i);
-char *init_no_quote_with_dollar(t_token **token ,const char *line, char *str_expand, int *i);
+bool	prepare_execution(t_data *data);
+
 char *init_no_quote_with_dollar(t_token **token ,const char *line, char *str_expand, int *i);
 
 

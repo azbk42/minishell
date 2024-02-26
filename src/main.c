@@ -6,7 +6,7 @@
 /*   By: emauduit <emauduit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:28 by emauduit          #+#    #+#             */
-/*   Updated: 2024/02/22 16:58:46 by emauduit         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:26:24 by emauduit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int g_global = 0;
+
 t_token	*create_token(char *word, t_e_token type)
 {
 	t_token	*token;
@@ -26,7 +28,6 @@ t_token	*create_token(char *word, t_e_token type)
 	token = (t_token *)malloc(sizeof(t_token));
 	token->token = ft_strdup(word);
 	token->type = type;
-	token->jump = 0;
 	token->next = NULL;
 	return (token);
 }
@@ -35,7 +36,7 @@ void	init_data(t_data *data)
 {
 	t_token	*token0;
 	t_token	*token1;
-
+	g_global = 127;
 	// Allouer de la mémoire pour data->cmd
 	data->cmd_list = malloc(sizeof(t_cmd_line));
 	// Initialiser data->cmd
@@ -44,10 +45,9 @@ void	init_data(t_data *data)
 	data->cmd_list->args = NULL;
 	data->cmd_list->next = NULL;
 	// Créer les nœuds t_token et les lier pour la première commande
-	token0 = create_token("lol$USERemauduit", ARG);
-	token1 = create_token("      $KK  ", ARG);
+	token0 = create_token("$USER$LOL'mdr'", ARG);
+	token1 = create_token("'yo'", ARG);
 
-	// token0 = create_token("slt$KK'$USER'$USER", ARG);
 	// token1 = create_token("$KK", ARG);
 	token0->next = token1;
 	
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	
 	ft_free_env_singletone(env);
 	//ft_free_secret_env(secret);	
-
+	// echo $USER$LOL"mdr $USER"$LOL'salut a tous' > text | wc la
 	command = data->cmd_list;
 	i = 0;
 	while (command)
